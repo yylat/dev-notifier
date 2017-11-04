@@ -80,7 +80,7 @@
                                                     <div style="font-size:12px;line-height:14px;color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
                                                         <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: left">
                                                             <span style="color: rgb(51, 51, 51); font-size: 14px; line-height: 16px;">
-                                                                <strong>${repo.slug}</strong> (master)
+                                                                <strong>${repo.slug}</strong> (${repo.branch})
                                                             </span>
                                                         </p>
                                                     </div>
