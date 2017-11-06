@@ -20,15 +20,16 @@ repositories {
 }
 
 val kotlinVersion by project
-val junitVersion by project
+val freemarkerVersion by project
 val javaxMailVersion by project
+val junitVersion by project
 
 dependencies {
 	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
+	compile("com.sun.mail:javax.mail:${javaxMailVersion}")
+	compile("org.freemarker:freemarker:${freemarkerVersion}")
 
 	testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-	testCompile("com.sun.mail:javax.mail:${javaxMailVersion}")
-
 	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 
