@@ -1,236 +1,104 @@
 <#-- @ftlvariable name="" type="by.dev.madhead.jarvis.model.Email" -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:v="urn:schemas-microsoft-com:vml"
-        xmlns:o="urn:schemas-microsoft-com:office:office">
+<#switch build.status.name()>
+	<#case "PASSED">
+		<#assign buildDescription = "Build ${build.number} passed.">
+		<#assign background = "#baecb7">
+		<#assign color = "#32a32d">
+		<#break>
+	<#case "FIXED">
+		<#assign buildDescription = "Build ${build.number} was fixed.">
+		<#assign background = "#baecb7">
+		<#assign color = "#32a32d">
+		<#break>
+	<#case "BROKEN">
+		<#assign buildDescription = "Build ${build.number} was broken.">
+		<#assign background = "#fdcdce">
+		<#assign color = "#df192a">
+		<#break>
+	<#case "STILL_BROKEN">
+		<#assign buildDescription = "Build ${build.number} is still broken.">
+		<#assign background = "#fdcdce">
+		<#assign color = "#df192a">
+		<#break>
+	<#case "FAILED">
+		<#assign buildDescription = "Build ${build.number} failed.">
+		<#assign background = "#fdcdce">
+		<#assign color = "#df192a">
+		<#break>
+	<#case "STILL_FAILING">
+		<#assign buildDescription = "Build ${build.number} is still failing.">
+		<#assign background = "#fdcdce">
+		<#assign color = "#df192a">
+		<#break>
+	<#case "UNKNOWN">
+		<#assign buildDescription = "Build ${build.number} collapsed.">
+		<#assign background = "#ccc">
+		<#assign color = "#707070">
+		<#break>
+</#switch>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+			}
 
-    <head>
-        <!--[if gte mso 9]>
-        <xml>
-            <o:OfficeDocumentSettings>
-                <o:AllowPNG/>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-            </o:OfficeDocumentSettings>
-        </xml>
-        <![endif]-->
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width">
-        <!--[if !mso]><!-->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
-        <style type="text/css" id="media-query">
-            <#include "style.css" parse=false>
-        </style>
-    </head>
+			table {
+				/*Debug borders*/
+				border: 1px black solid;
+			}
 
-    <body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #FFFFFF">
-        <style type="text/css" id="media-query-bodytag">
-            <#include "style-body.css" parse=false>
-        </style>
+			table.content {
+				width: 570px;
 
-        <!--[if IE]>
-        <div class="ie-browser">
-        <![endif]-->
-        <!--[if mso]>
-        <div class="mso-container">
-        <![endif]-->
+				margin-bottom: 15px;
 
-        <table class="nl-container"
-               style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;min-width: 320px;Margin: 0 auto;background-color: #FFFFFF;width: 100%"
-               cellpadding="0" cellspacing="0">
-            <tbody>
-                <tr style="vertical-align: top">
-                    <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                        <!--[if (mso)|(IE)]>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td align="center" style="background-color: #FFFFFF;">
-                        <![endif]-->
+				border-collapse: collapse;
+			}
+		</style>
+	</head>
+	<body>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td>
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="color: #606060; font-size: 20px">
+							<td>
+								<strong>
+								<#if repo.link??>
+									<a href="${repo.link}" style="color: #606060;">${repo.slug}</a>
+								<#else>
+									<span>
+									${repo.slug}
+									</span>
+								</#if>
+								</strong>
+							<#if build.branch??>
+								(${build.branch})
+							</#if>
+							</td>
+						</tr>
+					</table>
 
-                        <#--Repo slug and branch-->
-                        <div style="background-color:transparent;">
-                            <div style="Margin: 0 auto;min-width: 320px;max-width: 570px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;"
-                                 class="block-grid">
-                                <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
-                                    <!--[if (mso)|(IE)]>
-                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                        <tr>
-                                            <td style="background-color:transparent;" align="center">
-                                                <table cellpadding="0" cellspacing="0" border="0" style="width: 570px;">
-                                                    <tr class="layout-full-width" style="background-color:transparent;">
-                                                        <td align="center" width="570"
-                                                            style="width:570px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;"
-                                                            valign="top">
-                                    <![endif]-->
-
-                                    <div class="col num12"
-                                         style="min-width: 320px;max-width: 570px;display: table-cell;vertical-align: top;">
-                                        <div style="background-color: transparent; width: 100% !important;">
-                                            <!--[if (!mso)&(!IE)]><!-->
-                                            <div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-                                            <!--<![endif]-->
-
-                                                <!--[if mso]>
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                    <tr>
-                                                        <td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                <![endif]-->
-
-                                                <div style="color:#555555;line-height:120%;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                    <div style="font-size:12px;line-height:14px;color:#555555;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
-                                                        <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: left">
-                                                            <span style="color: rgb(51, 51, 51); font-size: 14px; line-height: 16px;">
-                                                                <strong>${repo.slug}</strong> (${repo.branch})
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <!--[if mso]>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <![endif]-->
-
-                                            <!--[if (!mso)&(!IE)]><!-->
-                                            </div>
-                                            <!--<![endif]-->
-                                        </div>
-                                    </div>
-
-                                    <!--[if (mso)|(IE)]>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <![endif]-->
-                                </div>
-                            </div>
-                        </div>
-
-                        <#--Build status and time-->
-                        <#--TODO-->
-                        <div style="background-color:transparent;">
-                            <div style="Margin: 0 auto;min-width: 320px;max-width: 570px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #baecb7;"
-                                 class="block-grid two-up">
-                                <div style="border-collapse: collapse;display: table;width: 100%;background-color:#baecb7;">
-                                    <!--[if (mso)|(IE)]>
-                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                        <tr>
-                                            <td style="background-color:transparent;" align="center">
-                                                <table cellpadding="0" cellspacing="0" border="0" style="width: 570px;">
-                                                    <tr class="layout-full-width" style="background-color:#baecb7;">
-                                    <![endif]-->
-
-                                    <!--[if (mso)|(IE)]>
-                                    <td align="center" width="285"
-                                        style="width:285px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;"
-                                        valign="top">
-	                                <![endif]-->
-
-	                                <div class="col num6"
-                                         style="max-width: 320px;min-width: 285px;display: table-cell;vertical-align: top;">
-                                        <div style="background-color: transparent; width: 100% !important;">
-                                            <!--[if (!mso)&(!IE)]><!-->
-                                            <div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-	                                        <!--<![endif]-->
-
-
-                                                <!--[if mso]>
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                    <tr>
-                                                        <td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                <![endif]-->
-
-                                                <div style="color:#32a32d;line-height:120%;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                    <div style="font-size:12px;line-height:14px;color:#32a32d;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
-                                                        <p style="margin: 0;font-size: 14px;line-height: 17px">
-	                                                        <span style="font-size: 14px; line-height: 16px;">
-		                                                        <img width="25" height="25" src="cid:status.png">
-		                                                        <strong>Build #141 passed.</strong>
-	                                                        </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <!--[if mso]>
-	                                                    </td>
-	                                                </tr>
-	                                            </table>
-	                                            <![endif]-->
-
-                                            <!--[if (!mso)&(!IE)]><!-->
-	                                        </div>
-	                                        <!--<![endif]-->
-                                        </div>
-                                    </div>
-
-	                                <!--[if (mso)|(IE)]>
-	                                </td>
-                                        <td align="center" width="285" style=" width:285px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top">
-	                                <![endif]-->
-
-                                    <div class="col num6"
-                                         style="max-width: 320px;min-width: 285px;display: table-cell;vertical-align: top;">
-                                        <div style="background-color: transparent; width: 100% !important;">
-                                            <!--[if (!mso)&(!IE)]><!-->
-                                            <div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
-                                            <!--<![endif]-->
-
-                                                <!--[if mso]>
-                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                                    <tr>
-                                                        <td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                <![endif]-->
-
-                                                <div style="color:#32a32d;line-height:120%;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-                                                    <div style="font-size:12px;line-height:14px;color:#32a32d;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
-                                                        <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: right">
-                                                            &#160;3 minutes and 37 seconds
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-	                                            <!--[if mso]>
-	                                                    </td>
-                                                    </tr>
-                                                </table>
-	                                            <![endif]-->
-
-
-                                            <!--[if (!mso)&(!IE)]><!-->
-	                                        </div>
-	                                        <!--<![endif]-->
-                                        </div>
-                                    </div>
-
-                                    <!--[if (mso)|(IE)]>
-	                                                    </td>
-	                                                </tr>
-	                                            </table>
-	                                        </td>
-	                                    </tr>
-	                                </table>
-	                                <![endif]-->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--[if (mso)|(IE)]>
-                                </td>
-                            </tr>
-                        </table>
-                        <![endif]-->
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!--[if (mso)|(IE)]>
-        </div>
-        <![endif]-->
-
-    </body>
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="background-color: ${background}; color: ${color}">
+							<td>
+								<img width="40" height="40" src="cid:status.png">
+							${buildDescription}
+							</td>
+							<td>
+								<img width="40" height="40" src="cid:stopwatch.png">
+							${build.durationForHumans}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
 </html>
