@@ -1,3 +1,4 @@
+import org.junit.platform.gradle.plugin.JUnitPlatformExtension
 import org.junit.platform.gradle.plugin.JUnitPlatformPlugin
 
 buildscript {
@@ -40,4 +41,15 @@ java {
 task<Wrapper>("wrapper") {
 	gradleVersion = "4.3"
 	distributionType = Wrapper.DistributionType.ALL
+}
+
+configure<JUnitPlatformExtension> {
+	filters {
+		tags {
+			include("base")
+			if (project.hasProperty("extended")) {
+				include("extended")
+			}
+		}
+	}
 }
