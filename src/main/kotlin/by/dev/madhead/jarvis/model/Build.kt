@@ -7,7 +7,8 @@ data class Build(
 		val branch: String? = null,
 		val revision: String,
 		val status: BuildStatus,
-		val duration: Duration
+		val duration: Duration,
+		val link: String
 ) {
 	val durationForHumans: String
 		get() = when {
