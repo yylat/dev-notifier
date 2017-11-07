@@ -55,13 +55,13 @@ object Jarvis {
 				contentID = "<status.png>"
 				description = "Build status"
 				disposition = """inline; filename="${contentID.replace(Regex("[<>]"), "")}""""
-				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/${image(email.build.status)}.png"), "image/png"))
+				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/images/status-${image(email.build.status)}.png"), "image/png"))
 			})
 			addBodyPart(MimeBodyPart().apply {
-				contentID = "<stopwatch.png>"
-				description = "Stopwatch"
+				contentID = "<duration.png>"
+				description = "Duration"
 				disposition = """inline; filename="${contentID.replace(Regex("[<>]"), "")}""""
-				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/stopwatch-${image(email.build.status)}.png"), "image/png"))
+				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/images/duration-${image(email.build.status)}.png"), "image/png"))
 			})
 		}
 

@@ -27,7 +27,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.PASSED,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -45,7 +46,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.FIXED,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -63,7 +65,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.BROKEN,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -81,7 +84,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.STILL_BROKEN,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -99,7 +103,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.FAILED,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -117,7 +122,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.STILL_FAILING,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -135,7 +141,8 @@ class EmailTest {
 						branch = "master",
 						revision = revision(),
 						status = BuildStatus.UNKNOWN,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}
@@ -151,7 +158,8 @@ class EmailTest {
 						number = (1..99).random(),
 						revision = revision(),
 						status = BuildStatus.PASSED,
-						duration = Duration.ofSeconds((30L..864000).random())
+						duration = Duration.ofSeconds((30L..864000).random()),
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 				)
 		))
 	}

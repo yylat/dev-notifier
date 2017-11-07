@@ -76,7 +76,7 @@
 							<td>
 								<strong>
 								<#if repo.link??>
-									<a href="${repo.link}" style="color: #606060;">${repo.slug}</a>
+									<a href="${repo.link}" style="color: #606060">${repo.slug}</a>
 								<#else>
 									<span>
 									${repo.slug}
@@ -93,11 +93,17 @@
 					<table class="content" align="center" cellpadding="0" cellspacing="0">
 						<tr style="background-color: ${background}; color: ${color}">
 							<td>
-								<img width="40" height="40" src="cid:status.png" alt="Build status"/>
-							${buildDescription}
+								<img width="25" height="25" src="cid:status.png" alt="Build status"/>
+							</td>
+							<td style="font-size: 18px">
+								<strong>
+									<a href="${build.link}" style="color: ${color}">${buildDescription}</a>
+								</strong>
 							</td>
 							<td>
-								<img width="40" height="40" src="cid:stopwatch.png" alt="Stopwatch"/>
+								<img width="25" height="25" src="cid:duration.png" alt="Stopwatch"/>
+							</td>
+							<td style="font-size: 12px">
 							${build.durationForHumans}
 							</td>
 						</tr>
