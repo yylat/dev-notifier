@@ -1,47 +1,52 @@
+<#ftl output_format="XHTML">
+
 <#-- @ftlvariable name="" type="by.dev.madhead.jarvis.model.Email" -->
+
 <#switch build.status.name()>
 	<#case "PASSED">
-		<#assign buildDescription = "Build ${build.number} passed.">
+		<#assign buildDescription = "Build #${build.number} passed.">
 		<#assign background = "#baecb7">
 		<#assign color = "#32a32d">
 		<#break>
 	<#case "FIXED">
-		<#assign buildDescription = "Build ${build.number} was fixed.">
+		<#assign buildDescription = "Build #${build.number} was fixed.">
 		<#assign background = "#baecb7">
 		<#assign color = "#32a32d">
 		<#break>
 	<#case "BROKEN">
-		<#assign buildDescription = "Build ${build.number} was broken.">
+		<#assign buildDescription = "Build #${build.number} was broken.">
 		<#assign background = "#fdcdce">
 		<#assign color = "#df192a">
 		<#break>
 	<#case "STILL_BROKEN">
-		<#assign buildDescription = "Build ${build.number} is still broken.">
+		<#assign buildDescription = "Build #${build.number} is still broken.">
 		<#assign background = "#fdcdce">
 		<#assign color = "#df192a">
 		<#break>
 	<#case "FAILED">
-		<#assign buildDescription = "Build ${build.number} failed.">
+		<#assign buildDescription = "Build #${build.number} failed.">
 		<#assign background = "#fdcdce">
 		<#assign color = "#df192a">
 		<#break>
 	<#case "STILL_FAILING">
-		<#assign buildDescription = "Build ${build.number} is still failing.">
+		<#assign buildDescription = "Build #${build.number} is still failing.">
 		<#assign background = "#fdcdce">
 		<#assign color = "#df192a">
 		<#break>
 	<#case "UNKNOWN">
-		<#assign buildDescription = "Build ${build.number} collapsed.">
+		<#assign buildDescription = "Build #${build.number} collapsed.">
 		<#assign background = "#ccc">
 		<#assign color = "#707070">
 		<#break>
 </#switch>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>${subject}</title>
 		<style type="text/css">
 			body {
 				margin: 0;
@@ -88,11 +93,11 @@
 					<table class="content" align="center" cellpadding="0" cellspacing="0">
 						<tr style="background-color: ${background}; color: ${color}">
 							<td>
-								<img width="40" height="40" src="cid:status.png">
+								<img width="40" height="40" src="cid:status.png" alt="Build status"/>
 							${buildDescription}
 							</td>
 							<td>
-								<img width="40" height="40" src="cid:stopwatch.png">
+								<img width="40" height="40" src="cid:stopwatch.png" alt="Stopwatch"/>
 							${build.durationForHumans}
 							</td>
 						</tr>

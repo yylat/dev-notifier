@@ -2,6 +2,7 @@ package by.dev.madhead.jarvis
 
 import by.dev.madhead.jarvis.model.BuildStatus
 import by.dev.madhead.jarvis.model.Email
+import freemarker.core.XHTMLOutputFormat
 import freemarker.template.Configuration
 import java.io.StringWriter
 import java.util.Properties
@@ -36,7 +37,7 @@ object Jarvis {
 	)
 
 	fun notify(email: Email) {
-		val configuration = Configuration(Configuration.VERSION_2_3_23)
+		val configuration = Configuration(Configuration.VERSION_2_3_24)
 
 		configuration.urlEscapingCharset = "UTF-8"
 		configuration.setClassForTemplateLoading(Jarvis::class.java, "/")
@@ -70,7 +71,7 @@ object Jarvis {
 					System.getenv("JARVIS_TO").split(",", " ", ";").forEach {
 						addRecipient(Message.RecipientType.TO, InternetAddress(it))
 					}
-					subject = """${email.build.status.forHumans}: ${email.repo.slug}#${email.build.number} (${if (email.build.branch.isNullOrBlank()) email.build.revision else "${email.build.branch} - ${email.build.revision}"})"""
+					subject = email.subject
 					setContent(content)
 				}
 		)
