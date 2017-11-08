@@ -2,6 +2,8 @@
 		"http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<!--/*@thymesVar id="email" type="by.dev.madhead.jarvis.model.Email"*/-->
+	<!--/*@thymesVar id="randomSuccessExhortation" type="java.lang.String"*/-->
+	<!--/*@thymesVar id="randomFailureExhortation" type="java.lang.String"*/-->
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,7 +26,7 @@
 			table.content {
 				width: 570px;
 
-				margin-bottom: 15px;
+				/*margin-bottom: 15px;*/
 
 				border-collapse: collapse;
 			}
@@ -48,18 +50,25 @@
 								      th:text="#{branch(${email.build.branch})}">(master)</span>
 							</td>
 						</tr>
+						<tr style="height: 15px"></tr>
 					</table>
 
-					<table class="content" align="center" cellpadding="0" cellspacing="0">
+					<table class="content" align="center" cellpadding="0" cellspacing="0" style="border: 1px solid #adadad">
+						<tr th:style="|height:10px; background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+						    style="height:10px; background-color: #baecb7; color: #32a32d">
+							<td colspan="8"></td>
+						</tr>
 						<tr
 								th:style="|background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
 								style="background-color: #baecb7; color: #32a32d">
-							<td>
+							<td style="width: 10px"></td>
+							<td style="width: 1px; height: 1px">
 								<img
 										th:src="'cid:status.png'"
 										src="../images/status-success.png"
 										width="25" height="25" alt="Build status"/>
 							</td>
+							<td style="width: 10px"></td>
 							<td style="font-size: 18px">
 								<strong>
 									<a th:style="|color: ${#messages.msg('status.' + email.build.status + '.color')}|"
@@ -68,14 +77,92 @@
 									   style="color: #32a32d">Build #42 passed.</a>
 								</strong>
 							</td>
-							<td>
+							<td style="width: 1px; height: 1px">
 								<img th:src="'cid:duration.png'"
 								     src="../images/duration-success.png"
 								     width="25" height="25" alt="Build duration"/>
 							</td>
-							<td th:text="${email.build.durationForHumans}" style="font-size: 12px">
+							<td style="width: 10px"></td>
+							<td th:text="${email.build.durationForHumans}"
+							    style="font-size: 12px; width: 170px">
 								7 days 35 minutes 8 seconds
 							</td>
+							<td style="width: 10px"></td>
+						</tr>
+						<tr th:style="|height:10px; background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}; border-bottom: 1px solid #adadad|"
+						    style="height:10px; background-color: #baecb7; color: #32a32d; border-bottom: 1px solid #adadad">
+							<td colspan="8"></td>
+						</tr>
+						<tr>
+							<td colspan="8">
+								<table width="100%">
+									<tr>
+										<td style="width: 10px" rowspan="2"></td>
+										<td>
+											<strong>
+												madhead
+											</strong>
+										</td>
+										<td style="text-align: right">
+											20339bc Changeset →
+										</td>
+										<td style="width: 10px" rowspan="2"></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											Merge pull request #8 from jenkinsci/cd
+											<br>
+											Fix scripts
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="height: 15px"></tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0" style="border: 1px solid #adadad">
+						<tr style="height:10px">
+							<td colspan="5"></td>
+						</tr>
+						<tr>
+							<td style="width: 10px"></td>
+							<td style="width: 1px; height: 1px">
+								<img
+										th:src="'cid:jenkins.png'"
+										src="../images/jenkins.png"
+										height="50" alt="Build status"/>
+							</td>
+							<td style="width: 10px"></td>
+							<td style="font-size: 12px">
+								<p th:unless="${#strings.isEmpty(email.supportEmail)}"
+								      th:utext="#{support(${email.supportEmail})}"
+									style="margin: 2px 0">
+									Need help? Mail <a href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
+								</p>
+								<!--/*-->
+								<p style="margin: 2px 0">
+									You look good today.
+								</p>
+								<!--*/-->
+								<!--/*/
+								<p th:if="${(email.build.status.name() == 'PASSED') or (email.build.status.name() == 'FIXED')}"
+								   th:text="${#messages.msg('exhortation.SUCCESS.' + randomSuccessExhortation)}"
+								   style="margin: 2px 0">
+								</p>
+								<p th:unless="${(email.build.status.name() == 'PASSED') or (email.build.status.name() == 'FIXED')}"
+								   th:text="${#messages.msg('exhortation.!SUCCESS.' + randomFailureExhortation)}"
+								   style="margin: 2px 0">
+								</p>
+								/*/-->
+							</td>
+							<td style="width: 10px"></td>
+						</tr>
+						<tr style="height:10px">
+							<td colspan="5"></td>
 						</tr>
 					</table>
 				</td>
