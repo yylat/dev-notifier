@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<!--/*@thymesVar id="email" type="by.dev.madhead.jarvis.model.Email"*/-->
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title th:text="|${#messages.msg('status.' + email.build.status.name())}: ${email.repo.slug} ${'#'} ${email.build.number} (${#strings.isEmpty(email.build.branch) ? email.build.revision : email.build.branch + ' - ' + email.build.revision})|">
+			Passed: madhead/jarvis#42 (master - 429c3f7)
+		</title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+
+				font-family: arial, sans-serif;
+			}
+
+			table {
+				/*Debug borders*/
+				/*border: 1px black solid;*/
+			}
+
+			table.content {
+				width: 570px;
+
+				margin-bottom: 15px;
+
+				border-collapse: collapse;
+			}
+		</style>
+	</head>
+	<body>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td>
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="color: #606060; font-size: 20px">
+							<td>
+								<strong>
+									<a
+											th:href="@{${email.repo.link}}"
+											href="https://github.com/jenkinsci/doktor-plugin"
+											style="color: #606060">jenkinsci/doktor-plugin</a>
+								</strong>
+
+								<span th:unless="${#strings.isEmpty(email.build.branch)}"
+								      th:text="#{branch(${email.build.branch})}">(master)</span>
+							</td>
+						</tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr
+								th:style="|background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+								style="background-color: #baecb7; color: #32a32d">
+							<td>
+								<img
+										th:src="'cid:status.png'"
+										src="../images/status-success.png"
+										width="25" height="25" alt="Build status"/>
+							</td>
+							<td style="font-size: 18px">
+								<strong>
+									<a th:style="|color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+									   th:text="${#messages.msg('status.' + email.build.status + '.description', email.build.number)}"
+									   href="https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+									   style="color: #32a32d">Build #42 passed.</a>
+								</strong>
+							</td>
+							<td>
+								<img th:src="'cid:duration.png'"
+								     src="../images/duration-success.png"
+								     width="25" height="25" alt="Build duration"/>
+							</td>
+							<td th:text="${email.build.durationForHumans}" style="font-size: 12px">
+								7 days 35 minutes 8 seconds
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

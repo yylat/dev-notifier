@@ -2,9 +2,11 @@ package by.dev.madhead.jarvis
 
 import by.dev.madhead.jarvis.model.BuildStatus
 import by.dev.madhead.jarvis.model.Email
-import freemarker.core.XHTMLOutputFormat
-import freemarker.template.Configuration
-import java.io.StringWriter
+import org.thymeleaf.TemplateEngine
+import org.thymeleaf.context.Context
+import org.thymeleaf.messageresolver.StandardMessageResolver
+import org.thymeleaf.templatemode.TemplateMode
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 import java.util.Properties
 import javax.activation.DataHandler
 import javax.mail.*
@@ -37,19 +39,21 @@ object Jarvis {
 	)
 
 	fun notify(email: Email) {
-		val configuration = Configuration(Configuration.VERSION_2_3_24)
-
-		configuration.urlEscapingCharset = "UTF-8"
-		configuration.setClassForTemplateLoading(Jarvis::class.java, "/")
-
-		val template = configuration.getTemplate("by/dev/madhead/jarvis/jarvis.ftl")
-		val result = StringWriter()
-
-		template.process(email, result)
-
+		val engine = TemplateEngine().apply {
+			setTemplateResolver(ClassLoaderTemplateResolver(Jarvis::class.java.classLoader).apply {
+				templateMode = TemplateMode.HTML
+				characterEncoding = Charsets.UTF_8.name()
+				prefix = "/by/dev/madhead/jarvis/templates/"
+				suffix = ".html"
+				isCacheable = true
+			})
+		}
+		val context = Context().apply {
+			setVariable("email", email)
+		}
 		val content = MimeMultipart().apply {
 			addBodyPart(MimeBodyPart().apply {
-				setContent(result.toString(), "text/html; charset=utf-8")
+				setContent(engine.process("jarvis", context), "text/html; charset=utf-8")
 			})
 			addBodyPart(MimeBodyPart().apply {
 				contentID = "<status.png>"
