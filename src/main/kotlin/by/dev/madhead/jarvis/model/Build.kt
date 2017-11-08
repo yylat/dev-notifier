@@ -8,7 +8,8 @@ data class Build(
 		val revision: String,
 		val status: BuildStatus,
 		val duration: Duration,
-		val link: String
+		val link: String,
+		val changeSet: ChangeSet
 ) {
 	val durationForHumans: String
 		get() = when {

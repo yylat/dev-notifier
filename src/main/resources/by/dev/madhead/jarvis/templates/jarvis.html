@@ -53,7 +53,8 @@
 						<tr style="height: 15px"></tr>
 					</table>
 
-					<table class="content" align="center" cellpadding="0" cellspacing="0" style="border: 1px solid #adadad">
+					<table class="content" align="center" cellpadding="0" cellspacing="0"
+					       style="border: 1px solid #adadad">
 						<tr th:style="|height:10px; background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
 						    style="height:10px; background-color: #baecb7; color: #32a32d">
 							<td colspan="8"></td>
@@ -93,27 +94,41 @@
 						    style="height:10px; background-color: #baecb7; color: #32a32d; border-bottom: 1px solid #adadad">
 							<td colspan="8"></td>
 						</tr>
-						<tr>
+						<tr th:if="${not #lists.isEmpty(email.build.changeSet)}">
 							<td colspan="8">
 								<table width="100%">
-									<tr>
-										<td style="width: 10px" rowspan="2"></td>
-										<td>
-											<strong>
-												madhead
-											</strong>
-										</td>
-										<td style="text-align: right">
-											20339bc Changeset →
-										</td>
-										<td style="width: 10px" rowspan="2"></td>
-									</tr>
-									<tr>
-										<td colspan="2">
-											Merge pull request #8 from jenkinsci/cd
-											<br>
-											Fix scripts
-										</td>
+									<tr th:each="change:${email.build.changeSet}">
+										<table width="100%">
+											<tr>
+												<td style="width: 10px" rowspan="2"></td>
+												<td>
+													<strong th:text="${change.author}" style="font-size: 16px">
+														madhead
+													</strong>
+												</td>
+												<td style="text-align: right">
+													<a th:unless="${#strings.isEmpty(change.link)}"
+													   th:href="${change.link}"
+													   href="https://github.com/jenkinsci/doktor-plugin/commit/20339bc396d32bd619f4601eb44085efb3e2f531"
+													   style="text-decoration: none; color: #57769d; font-size: 16px">
+														<pre th:text="${change.revision}" style="margin: 0">20339bc</pre>
+													</a>
+													<!--/*/
+													<pre th:if="${#strings.isEmpty(change.link)}"
+														 th:text="${change.revision}"
+														 style="text-decoration: none; color: #606060; font-size: 16px; margin: 0">20339bc</pre>
+													/*/-->
+												</td>
+												<td style="width: 10px" rowspan="2"></td>
+											</tr>
+											<tr>
+												<td colspan="2">
+											<pre th:text="${change.message}"
+											     style="color: #606060; font-size: 15px; margin: 5px">Merge pull request #8 from jenkinsci/cd
+Fix scripts</pre>
+												</td>
+											</tr>
+										</table>
 									</tr>
 								</table>
 							</td>
@@ -124,7 +139,8 @@
 						<tr style="height: 15px"></tr>
 					</table>
 
-					<table class="content" align="center" cellpadding="0" cellspacing="0" style="border: 1px solid #adadad">
+					<table class="content" align="center" cellpadding="0" cellspacing="0"
+					       style="border: 1px solid #adadad">
 						<tr style="height:10px">
 							<td colspan="5"></td>
 						</tr>
@@ -138,9 +154,9 @@
 							</td>
 							<td style="width: 10px"></td>
 							<td style="font-size: 12px">
-								<p th:unless="${#strings.isEmpty(email.supportEmail)}"
-								      th:utext="#{support(${email.supportEmail})}"
-									style="margin: 2px 0">
+								<p th:unless="${#strings.isEmpty(email.extra.supportEmail)}"
+								   th:utext="#{support(${email.extra.supportEmail})}"
+								   style="margin: 2px 0">
 									Need help? Mail <a href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
 								</p>
 								<!--/*-->
