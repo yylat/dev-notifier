@@ -1,9 +1,6 @@
 package by.dev.madhead.jarvis
 
-import by.dev.madhead.jarvis.model.Build
-import by.dev.madhead.jarvis.model.BuildStatus
-import by.dev.madhead.jarvis.model.Email
-import by.dev.madhead.jarvis.model.Repo
+import by.dev.madhead.jarvis.model.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.time.Duration
@@ -28,9 +25,36 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.PASSED,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
 				),
-				supportEmail = "support@travis-ci.com"
+				Extra(
+						supportEmail = "support@travis-ci.com"
+				)
 		))
 	}
 
@@ -48,7 +72,34 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.FIXED,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
+				),
+				Extra(
 				)
 		))
 	}
@@ -67,9 +118,36 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.BROKEN,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
 				),
-				supportEmail = "support@travis-ci.com"
+				Extra(
+						supportEmail = "support@travis-ci.com"
+				)
 		))
 	}
 
@@ -87,9 +165,12 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.STILL_BROKEN,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf()
 				),
-				supportEmail = "support@travis-ci.com"
+				Extra(
+						supportEmail = "support@travis-ci.com"
+				)
 		))
 	}
 
@@ -107,7 +188,28 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.FAILED,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								)
+						)
+				),
+				Extra(
 				)
 		))
 	}
@@ -126,7 +228,29 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.STILL_FAILING,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
+				),
+				Extra(
 				)
 		))
 	}
@@ -145,9 +269,30 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.UNKNOWN,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "Fix scripts",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
 				),
-				supportEmail = "support@travis-ci.com"
+				Extra(
+						supportEmail = "support@travis-ci.com"
+				)
 		))
 	}
 
@@ -163,7 +308,28 @@ class EmailTest {
 						revision = revision(),
 						status = BuildStatus.PASSED,
 						duration = Duration.ofSeconds((30L..864000).random()),
-						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649",
+						changeSet = listOf(
+								Change(
+										revision = "217c8a5",
+										author = "madhead",
+										message = "mv -> cp",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "WIP"
+								),
+								Change(
+										revision = "df156a6",
+										author = "madhead",
+										message = "Fix #35: move document output settings upper in hierarchy of calls",
+										link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
+								)
+						)
+				),
+				Extra(
 				)
 		))
 	}
