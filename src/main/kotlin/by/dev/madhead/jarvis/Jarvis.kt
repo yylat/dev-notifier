@@ -7,7 +7,7 @@ import org.thymeleaf.context.Context
 import org.thymeleaf.messageresolver.StandardMessageResolver
 import org.thymeleaf.templatemode.TemplateMode
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
-import java.util.Properties
+import java.util.*
 import javax.activation.DataHandler
 import javax.mail.*
 import javax.mail.internet.InternetAddress
@@ -50,6 +50,8 @@ object Jarvis {
 		}
 		val context = Context().apply {
 			setVariable("email", email)
+			setVariable("randomSuccessExhortation", Random().nextInt(4).toString(10))
+			setVariable("randomFailureExhortation", Random().nextInt(2).toString(10))
 		}
 		val content = MimeMultipart().apply {
 			addBodyPart(MimeBodyPart().apply {
@@ -66,6 +68,12 @@ object Jarvis {
 				description = "Duration"
 				disposition = """inline; filename="${contentID.replace(Regex("[<>]"), "")}""""
 				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/images/duration-${image(email.build.status)}.png"), "image/png"))
+			})
+			addBodyPart(MimeBodyPart().apply {
+				contentID = "<jenkins.png>"
+				description = "Jenkins"
+				disposition = """inline; filename="${contentID.replace(Regex("[<>]"), "")}""""
+				dataHandler = DataHandler(ByteArrayDataSource(Jarvis::class.java.getResourceAsStream("/by/dev/madhead/jarvis/images/jenkins${if ((email.build.status == BuildStatus.PASSED) || (email.build.status == BuildStatus.FIXED)) "" else "-in-fire"}.png"), "image/png"))
 			})
 		}
 

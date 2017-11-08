@@ -29,7 +29,8 @@ class EmailTest {
 						status = BuildStatus.PASSED,
 						duration = Duration.ofSeconds((30L..864000).random()),
 						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
-				)
+				),
+				supportEmail = "support@travis-ci.com"
 		))
 	}
 
@@ -67,7 +68,8 @@ class EmailTest {
 						status = BuildStatus.BROKEN,
 						duration = Duration.ofSeconds((30L..864000).random()),
 						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
-				)
+				),
+				supportEmail = "support@travis-ci.com"
 		))
 	}
 
@@ -86,7 +88,8 @@ class EmailTest {
 						status = BuildStatus.STILL_BROKEN,
 						duration = Duration.ofSeconds((30L..864000).random()),
 						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
-				)
+				),
+				supportEmail = "support@travis-ci.com"
 		))
 	}
 
@@ -143,7 +146,8 @@ class EmailTest {
 						status = BuildStatus.UNKNOWN,
 						duration = Duration.ofSeconds((30L..864000).random()),
 						link = "https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
-				)
+				),
+				supportEmail = "support@travis-ci.com"
 		))
 	}
 
