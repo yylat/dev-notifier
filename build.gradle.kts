@@ -2,22 +2,24 @@ import org.junit.platform.gradle.plugin.JUnitPlatformExtension
 import org.junit.platform.gradle.plugin.JUnitPlatformPlugin
 
 buildscript {
-	repositories {
-		jcenter()
-	}
+    repositories {
+        jcenter()
+    }
 
-	dependencies {
-		classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
-	}
+    dependencies {
+        classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
+    }
 }
 
 plugins {
-	kotlin("jvm") version ("1.1.51")
+    kotlin("jvm") version ("1.1.51")
+
+    id("org.jenkins-ci.jpi") version ("0.22.0")
 }
 apply<JUnitPlatformPlugin>()
 
 repositories {
-	jcenter()
+    jcenter()
 }
 
 val kotlinVersion by project
@@ -25,31 +27,50 @@ val thymeleafVersion by project
 val javaxMailVersion by project
 val junitVersion by project
 
-dependencies {
-	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
-	compile("com.sun.mail:javax.mail:${javaxMailVersion}")
-	compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
+val jenkinsCredentialsPluginVersion by project
+val jenkinsWorkflowStepsAPIPluginVersion by project
 
-	testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+val jenkinsCoreVersion by project
+
+dependencies {
+    compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
+    compile("com.sun.mail:javax.mail:${javaxMailVersion}")
+    compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
+    compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
+
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+jenkinsPlugin {
+    displayName = "Jarvis"
+    shortName = "jarvis"
+    gitHubUrl = "https://github.com/madhead/jarvis"
+
+    coreVersion = jenkinsCoreVersion as String?
+    compatibleSinceVersion = coreVersion
+    fileExtension = "jpi"
+    pluginFirstClassLoader = true
 }
 
 task<Wrapper>("wrapper") {
-	gradleVersion = "4.3"
-	distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = "4.3"
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 configure<JUnitPlatformExtension> {
-	filters {
-		tags {
-			include("base")
-			if (project.hasProperty("extended")) {
-				include("extended")
-			}
-		}
-	}
+    filters {
+        tags {
+            include("base")
+            if (project.hasProperty("extended")) {
+                include("extended")
+            }
+        }
+    }
 }
