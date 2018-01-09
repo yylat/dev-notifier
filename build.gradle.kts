@@ -44,8 +44,6 @@ dependencies {
     jenkinsPlugins("org.jenkins-ci.plugins:credentials:$jenkinsCredentialsPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowStepsAPIPluginVersion@jar")
 
-    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
-
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
@@ -62,7 +60,7 @@ jenkinsPlugin {
     coreVersion = jenkinsCoreVersion as String?
     compatibleSinceVersion = coreVersion
     fileExtension = "jpi"
-    pluginFirstClassLoader = true
+    pluginFirstClassLoader = false
 }
 
 task<Wrapper>("wrapper") {
