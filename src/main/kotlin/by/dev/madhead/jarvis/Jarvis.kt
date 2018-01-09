@@ -4,7 +4,6 @@ import by.dev.madhead.jarvis.model.BuildStatus
 import by.dev.madhead.jarvis.model.Email
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
-import org.thymeleaf.messageresolver.StandardMessageResolver
 import org.thymeleaf.templatemode.TemplateMode
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 import java.util.*
@@ -15,30 +14,35 @@ import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 import javax.mail.util.ByteArrayDataSource
+import hudson.tasks.Mailer
 
 object Jarvis {
-	val session = Session.getDefaultInstance(
-			Properties().apply {
-				this["mail.smtp.host"] = System.getenv("JARVIS_SMTP_HOST")
-				this["mail.smtp.port"] = System.getenv("JARVIS_SMTP_PORT")
-				this["mail.smtp.auth"] = (!System.getenv("JARVIS_SMTP_USER").isNullOrBlank()).toString()
-				this["mail.smtp.starttls.enable"] = System.getenv("JARVIS_SMTP_TLS")
-			},
-			if (!System.getenv("JARVIS_SMTP_USER").isNullOrBlank()) {
-				object : Authenticator() {
-					override fun getPasswordAuthentication(): PasswordAuthentication? {
-						return PasswordAuthentication(
-								System.getenv("JARVIS_SMTP_USER"),
-								System.getenv("JARVIS_SMTP_PASSWORD")
-						)
-					}
-				}
-			} else {
-				null
-			}
-	)
 
-	fun notify(email: Email) {
+	private val session: Session by lazy {
+		val mailerDescriptor = Mailer.descriptor()
+		Session.getDefaultInstance(
+				Properties().apply {
+					this["mail.smtp.host"] = mailerDescriptor.smtpServer
+					this["mail.smtp.port"] = mailerDescriptor.smtpPort
+					this["mail.smtp.auth"] = (!mailerDescriptor.smtpAuthUserName.isNullOrBlank()).toString()
+					this["mail.smtp.starttls.enable"] = "true"
+				},
+				if (!mailerDescriptor.smtpAuthUserName.isNullOrBlank()) {
+					object : Authenticator() {
+						override fun getPasswordAuthentication(): PasswordAuthentication? {
+							return PasswordAuthentication(
+									mailerDescriptor.smtpAuthUserName,
+									mailerDescriptor.smtpAuthPassword
+							)
+						}
+					}
+				} else {
+					null
+				}
+		)
+	}
+
+	fun notify(email: Email, from: String, to: String) {
 		val engine = TemplateEngine().apply {
 			setTemplateResolver(ClassLoaderTemplateResolver(Jarvis::class.java.classLoader).apply {
 				templateMode = TemplateMode.HTML
@@ -79,8 +83,8 @@ object Jarvis {
 
 		Transport.send(
 				MimeMessage(session).apply {
-					setFrom(InternetAddress(System.getenv("JARVIS_FROM")))
-					System.getenv("JARVIS_TO").split(",", " ", ";").forEach {
+					setFrom(InternetAddress(from))
+					to.split(",", " ", ";").forEach {
 						addRecipient(Message.RecipientType.TO, InternetAddress(it))
 					}
 					subject = email.subject
@@ -89,11 +93,11 @@ object Jarvis {
 		)
 	}
 
-	fun image(buildStatus: BuildStatus): String {
+	private fun image(buildStatus: BuildStatus): String {
 		return when (buildStatus) {
 			BuildStatus.PASSED, BuildStatus.FIXED -> "success"
 			BuildStatus.BROKEN, BuildStatus.STILL_BROKEN, BuildStatus.FAILED, BuildStatus.STILL_FAILING -> "failure"
-			BuildStatus.UNKNOWN -> "unknown"
+			BuildStatus.UNKNOWN, BuildStatus.ABORTED -> "unknown"
 		}
 	}
 }

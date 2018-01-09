@@ -27,6 +27,7 @@ val thymeleafVersion by project
 val javaxMailVersion by project
 val junitVersion by project
 
+val jenkinsMailerPluginVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
@@ -37,6 +38,11 @@ dependencies {
     compile("com.sun.mail:javax.mail:${javaxMailVersion}")
     compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
     compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
+    compile("javax.servlet:javax.servlet-api:3.0.1")
+
+    jenkinsPlugins("org.jenkins-ci.plugins:mailer:$jenkinsMailerPluginVersion@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins:credentials:$jenkinsCredentialsPluginVersion@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowStepsAPIPluginVersion@jar")
 
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
 

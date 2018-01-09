@@ -48,5 +48,6 @@ enum class BuildStatus(
 	STILL_BROKEN("Still broken"),
 	FAILED("Failed"),
 	STILL_FAILING("Still failing"),
+	ABORTED("Aborted"),
 	UNKNOWN("Unknown");
 }

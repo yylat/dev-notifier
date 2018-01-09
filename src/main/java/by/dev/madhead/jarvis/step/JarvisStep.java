@@ -1,6 +1,8 @@
 package by.dev.madhead.jarvis.step;
 
-import by.dev.madhead.jarvis.model.BuildStatus;
+import by.dev.madhead.jarvis.Jarvis;
+import by.dev.madhead.jarvis.model.*;
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
@@ -19,6 +21,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.Duration;
+import java.util.ArrayList;
 
 public class JarvisStep extends Notifier implements SimpleBuildStep {
 
@@ -36,9 +40,25 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        PrintStream printStream = listener.getLogger();
-        run.getEnvironment(listener).entrySet().forEach(printStream::println);
-        printStream.println("Build result: " + run.getResult());
+        EnvVars envVars = run.getEnvironment(listener);
+
+        Jarvis.INSTANCE.notify(
+                new Email(
+                        new Repo(
+                                envVars.get("GIT_URL"),
+                                envVars.get("GIT_URL")),
+                        new Build(
+                                run.getNumber(),
+                                envVars.get("GIT_BRANCH"),
+                                envVars.get("GIT_COMMIT").substring(0, 7),
+                                defineBuildStatus(run.getResult(), run.getPreviousBuild() != null ? run.getPreviousBuild().getResult() : null),
+                                Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
+                                envVars.get("BUILD_URL"),
+                                new ArrayList<>()),
+                        new Extra(
+                                "support@travis-ci.com")),
+                "JARVIS",
+                recipients);
     }
 
     private BuildStatus defineBuildStatus(Result currentResult, Result previousResult) {
