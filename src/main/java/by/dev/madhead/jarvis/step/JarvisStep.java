@@ -1,28 +1,27 @@
 package by.dev.madhead.jarvis.step;
 
+import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
 import by.dev.madhead.jarvis.model.*;
+import by.dev.madhead.jarvis.model.Build;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
-import hudson.model.AbstractProject;
-import hudson.model.Result;
-import hudson.model.Run;
-import hudson.model.TaskListener;
+import hudson.model.*;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
 import jenkins.tasks.SimpleBuildStep;
-import org.jenkinsci.Symbol;
+import org.jetbrains.annotations.NotNull;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 public class JarvisStep extends Notifier implements SimpleBuildStep {
 
@@ -40,25 +39,42 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        EnvVars envVars = run.getEnvironment(listener);
+        if (AbstractBuild.class == run.getClass()) {
+            EnvVars envVars = run.getEnvironment(listener);
+            final String gitUrl = envVars.get("GIT_URL").substring(0, envVars.get("GIT_URL").lastIndexOf(".git"));
 
-        Jarvis.INSTANCE.notify(
-                new Email(
-                        new Repo(
-                                envVars.get("GIT_URL"),
-                                envVars.get("GIT_URL")),
-                        new Build(
-                                run.getNumber(),
-                                envVars.get("GIT_BRANCH"),
-                                envVars.get("GIT_COMMIT").substring(0, 7),
-                                defineBuildStatus(run.getResult(), run.getPreviousBuild() != null ? run.getPreviousBuild().getResult() : null),
-                                Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
-                                envVars.get("BUILD_URL"),
-                                new ArrayList<>()),
-                        new Extra(
-                                "support@travis-ci.com")),
-                "JARVIS",
-                recipients);
+            // TODO: find committer info
+            List<Change> changes = new ArrayList<>();
+            ((AbstractBuild<?, ?>) run).getChangeSet().forEach(change ->
+                    changes.add(
+                            new Change(
+                                    change.getCommitId().substring(0, 7),
+                                    "author",
+                                    "committer",
+                                    change.getMsg(),
+                                    gitUrl.concat("/commit/" + change.getCommitId())
+                            )
+                    )
+            );
+
+            Jarvis.INSTANCE.notify(
+                    new Email(
+                            new Repo(
+                                    gitUrl.substring(gitUrl.indexOf("/", gitUrl.indexOf(".com")) + 1),
+                                    gitUrl),
+                            new Build(
+                                    run.getNumber(),
+                                    envVars.get("GIT_BRANCH").substring(envVars.get("GIT_BRANCH").lastIndexOf("/") + 1),
+                                    envVars.get("GIT_COMMIT").substring(0, 7),
+                                    defineBuildStatus(run.getResult(), run.getPreviousBuild() != null ? run.getPreviousBuild().getResult() : null),
+                                    Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
+                                    envVars.get("BUILD_URL"),
+                                    changes),
+                            new Extra(
+                                    "support@travis-ci.com")),
+                    "JARVIS",
+                    recipients);
+        }
     }
 
     private BuildStatus defineBuildStatus(Result currentResult, Result previousResult) {
@@ -105,13 +121,13 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
         return BuildStepMonitor.NONE;
     }
 
-    @Symbol("jarvis")
     @Extension
     public static final class JarvisStepDescriptor extends BuildStepDescriptor<Publisher> {
 
+        @NotNull
         @Override
         public String getDisplayName() {
-            return "Do jarvis";
+            return Messages.jarvis_step_JarvisStep_displayName();
         }
 
         @Override
