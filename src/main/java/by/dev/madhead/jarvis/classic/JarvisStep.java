@@ -1,9 +1,10 @@
-package by.dev.madhead.jarvis.step;
+package by.dev.madhead.jarvis.classic;
 
 import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
 import by.dev.madhead.jarvis.model.*;
 import by.dev.madhead.jarvis.model.Build;
+import by.dev.madhead.jarvis.util.BuildStatusQualifier;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -39,7 +40,7 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        if (AbstractBuild.class == run.getClass()) {
+        if (run instanceof AbstractBuild) {
             EnvVars envVars = run.getEnvironment(listener);
             final String gitUrl = envVars.get("GIT_URL").substring(0, envVars.get("GIT_URL").lastIndexOf(".git"));
 
@@ -66,7 +67,7 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
                                     run.getNumber(),
                                     envVars.get("GIT_BRANCH").substring(envVars.get("GIT_BRANCH").lastIndexOf("/") + 1),
                                     envVars.get("GIT_COMMIT").substring(0, 7),
-                                    defineBuildStatus(run.getResult(), run.getPreviousBuild() != null ? run.getPreviousBuild().getResult() : null),
+                                    BuildStatusQualifier.defineBuildStatus(run),
                                     Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
                                     envVars.get("BUILD_URL"),
                                     changes),
@@ -75,45 +76,6 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
                     "JARVIS",
                     recipients);
         }
-    }
-
-    private BuildStatus defineBuildStatus(Result currentResult, Result previousResult) {
-        if (Result.SUCCESS.equals(currentResult)
-                && (previousResult == null || Result.SUCCESS.equals(previousResult))) {
-            return BuildStatus.PASSED;
-        }
-
-        if (Result.SUCCESS.equals(currentResult)
-                && (previousResult != null && !Result.SUCCESS.equals(previousResult))) {
-            return BuildStatus.FIXED;
-        }
-
-        if ((Result.UNSTABLE.equals(currentResult) || Result.NOT_BUILT.equals(currentResult))
-                && (previousResult == null || Result.SUCCESS.equals(previousResult))) {
-            return BuildStatus.BROKEN;
-        }
-
-        if ((Result.UNSTABLE.equals(currentResult) || Result.NOT_BUILT.equals(currentResult))
-                && (previousResult != null
-                && (Result.UNSTABLE.equals(previousResult) || Result.NOT_BUILT.equals(previousResult)))) {
-            return BuildStatus.STILL_BROKEN;
-        }
-
-        if (Result.FAILURE.equals(currentResult)
-                && (previousResult == null || !Result.FAILURE.equals(previousResult))) {
-            return BuildStatus.FAILED;
-        }
-
-        if (Result.FAILURE.equals(currentResult)
-                && (previousResult != null && Result.FAILURE.equals(previousResult))) {
-            return BuildStatus.STILL_FAILING;
-        }
-
-        if (Result.ABORTED.equals(currentResult)) {
-            return BuildStatus.ABORTED;
-        }
-
-        return BuildStatus.UNKNOWN;
     }
 
     @Override
