@@ -26,10 +26,11 @@ val kotlinVersion by project
 val thymeleafVersion by project
 val javaxMailVersion by project
 val junitVersion by project
+val powerMockVersion by project
 
 val jenkinsMailerPluginVersion by project
 val jenkinsCredentialsPluginVersion by project
-val jenkinsWorkflowStepsAPIPluginVersion by project
+val jenkinsWorkflowPluginVersion by project
 
 val jenkinsCoreVersion by project
 
@@ -40,15 +41,15 @@ dependencies {
     compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
     compile("javax.servlet:javax.servlet-api:3.0.1")
 
-    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:2.16@jar")
-    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:2.16@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:$jenkinsWorkflowPluginVersion@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:$jenkinsWorkflowPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins:mailer:$jenkinsMailerPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins:credentials:$jenkinsCredentialsPluginVersion@jar")
-    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowStepsAPIPluginVersion@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowPluginVersion@jar")
 
-    testCompile("org.powermock:powermock-module-junit4:1.6.5")
-    testCompile("org.powermock:powermock-api-mockito:1.6.5")
-    testCompile("junit:junit:4.4")
+    testCompile("org.powermock:powermock-module-junit4:$powerMockVersion")
+    testCompile("org.powermock:powermock-api-mockito:$powerMockVersion")
+    testCompile("junit:junit:$junitVersion")
 }
 
 java {
