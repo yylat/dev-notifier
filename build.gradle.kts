@@ -40,12 +40,15 @@ dependencies {
     compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
     compile("javax.servlet:javax.servlet-api:3.0.1")
 
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:2.16@jar")
+    jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:2.16@jar")
     jenkinsPlugins("org.jenkins-ci.plugins:mailer:$jenkinsMailerPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins:credentials:$jenkinsCredentialsPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowStepsAPIPluginVersion@jar")
 
-    testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testCompile("org.powermock:powermock-module-junit4:1.6.5")
+    testCompile("org.powermock:powermock-api-mockito:1.6.5")
+    testCompile("junit:junit:4.4")
 }
 
 java {
@@ -66,15 +69,4 @@ jenkinsPlugin {
 task<Wrapper>("wrapper") {
     gradleVersion = "4.3"
     distributionType = Wrapper.DistributionType.ALL
-}
-
-configure<JUnitPlatformExtension> {
-    filters {
-        tags {
-            include("base")
-            if (project.hasProperty("extended")) {
-                include("extended")
-            }
-        }
-    }
 }
