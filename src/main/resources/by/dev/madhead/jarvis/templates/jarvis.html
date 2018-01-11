@@ -42,8 +42,9 @@
 								<strong>
 									<a
 											th:href="@{${email.repo.link}}"
+											th:text="${email.repo.slug}"
 											href="https://github.com/jenkinsci/doktor-plugin"
-											style="color: #606060">jenkinsci/doktor-plugin</a>
+											style="color: #606060"></a>
 								</strong>
 
 								<span th:unless="${#strings.isEmpty(email.build.branch)}"
