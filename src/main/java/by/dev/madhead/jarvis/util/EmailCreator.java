@@ -93,7 +93,7 @@ public final class EmailCreator {
         // TODO: find committer info
         return new Change(
                 changeEntry.getCommitId().substring(0, 7),
-                "author",
+                changeEntry.getAuthor().getId(),
                 "committer",
                 changeEntry.getMsg(),
                 gitUrl.concat("/commit/" + changeEntry.getCommitId()));
