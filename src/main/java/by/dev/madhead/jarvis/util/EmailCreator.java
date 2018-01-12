@@ -68,7 +68,7 @@ public final class EmailCreator {
                         envVars.get("BUILD_URL"),
                         changes),
                 new Extra(
-                        "support@travis-ci.com")
+                        "jenkinsci-users@googlegroups.com")
         );
     }
 
