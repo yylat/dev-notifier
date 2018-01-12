@@ -34,10 +34,15 @@ public final class EmailCreator {
     }
 
     private static Email classicCreate(AbstractBuild<?, ?> run, TaskListener listener) throws IOException, InterruptedException {
-        EnvVars envVars = run.getEnvironment(listener);
-        String gitUrl = extractGitUrl(envVars);
-        List<Change> changes = createChangesList(gitUrl, run.getChangeSet());
-        return create(gitUrl, run, envVars, changes);
+        listener.getLogger().println(run.getParent().getScm());
+        if (run.getParent().getScm() != null) {
+            EnvVars envVars = run.getEnvironment(listener);
+            String gitUrl = extractGitUrl(envVars);
+            List<Change> changes = createChangesList(gitUrl, run.getChangeSet());
+            return create(gitUrl, run, envVars, changes);
+        } else {
+            throw new AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM());
+        }
     }
 
     private static Email pipelineCreate(WorkflowRun run, TaskListener listener) throws IOException, InterruptedException {
@@ -50,7 +55,7 @@ public final class EmailCreator {
             run.getChangeSets().forEach(changeSet -> addChangesToList(gitUrl, changeSet, changes));
             return create(gitUrl, run, envVars, changes);
         } else {
-            throw new AbortException(Messages.jarvis_hudson_AbortException_pipelineWithoutSCM());
+            throw new AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM());
         }
     }
 
