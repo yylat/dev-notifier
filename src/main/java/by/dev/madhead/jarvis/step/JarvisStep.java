@@ -1,4 +1,4 @@
-package by.dev.madhead.jarvis.classic;
+package by.dev.madhead.jarvis.step;
 
 import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
@@ -35,10 +35,7 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        Jarvis.INSTANCE.notify(
-                EmailCreator.build(run, listener),
-                "JARVIS",
-                recipients);
+        Jarvis.INSTANCE.notify(EmailCreator.create(run, listener), Messages.jarvis_step_JarvisStep_fromName(), recipients);
     }
 
     @Override
