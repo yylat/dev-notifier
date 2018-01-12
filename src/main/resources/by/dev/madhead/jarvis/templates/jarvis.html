@@ -75,6 +75,7 @@
 								<strong>
 									<a th:style="|color: ${#messages.msg('status.' + email.build.status + '.color')}|"
 									   th:text="${#messages.msg('status.' + email.build.status + '.description', email.build.number)}"
+									   th:href="${email.build.link}"
 									   href="https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
 									   style="color: #32a32d">Build #42 passed.</a>
 								</strong>
@@ -109,7 +110,6 @@
 												</td>
 												<td style="text-align: right">
 													<a th:unless="${#strings.isEmpty(change.link)}"
-													   th:href="${change.link}"
 													   href="https://github.com/jenkinsci/doktor-plugin/commit/20339bc396d32bd619f4601eb44085efb3e2f531"
 													   style="text-decoration: none; color: #57769d; font-size: 16px">
 														<pre th:text="${change.revision}" style="margin: 0">20339bc</pre>
@@ -158,7 +158,8 @@ Fix scripts</pre>
 								<p th:unless="${#strings.isEmpty(email.extra.supportEmail)}"
 								   th:utext="#{support(${email.extra.supportEmail})}"
 								   style="margin: 2px 0">
-									Need help? Mail <a href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
+									Need help? Mail <a
+										th:href="${email.extra.supportEmail}" href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
 								</p>
 								<!--/*-->
 								<p style="margin: 2px 0">
