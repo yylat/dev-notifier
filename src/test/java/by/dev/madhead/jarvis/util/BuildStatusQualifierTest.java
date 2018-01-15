@@ -37,7 +37,22 @@ public class BuildStatusQualifierTest {
         return Arrays.asList(new Object[][]{
                 {Result.SUCCESS, null, BuildStatus.PASSED},
                 {Result.SUCCESS, Result.SUCCESS, BuildStatus.PASSED},
-                {Result.SUCCESS, Result.FAILURE, BuildStatus.FIXED}
+                {Result.SUCCESS, Result.FAILURE, BuildStatus.FIXED},
+                {Result.SUCCESS, Result.NOT_BUILT, BuildStatus.FIXED},
+                {Result.UNSTABLE, null, BuildStatus.BROKEN},
+                {Result.NOT_BUILT, null, BuildStatus.BROKEN},
+                {Result.UNSTABLE, Result.SUCCESS, BuildStatus.BROKEN},
+                {Result.NOT_BUILT, Result.SUCCESS, BuildStatus.BROKEN},
+                {Result.UNSTABLE, Result.UNSTABLE, BuildStatus.STILL_BROKEN},
+                {Result.UNSTABLE, Result.NOT_BUILT, BuildStatus.STILL_BROKEN},
+                {Result.NOT_BUILT, Result.UNSTABLE, BuildStatus.STILL_BROKEN},
+                {Result.NOT_BUILT, Result.NOT_BUILT, BuildStatus.STILL_BROKEN},
+                {Result.FAILURE, null, BuildStatus.FAILED},
+                {Result.FAILURE, Result.NOT_BUILT, BuildStatus.FAILED},
+                {Result.FAILURE, Result.SUCCESS, BuildStatus.FAILED},
+                {Result.FAILURE, Result.FAILURE, BuildStatus.STILL_FAILING},
+                {Result.ABORTED, Result.FAILURE, BuildStatus.ABORTED},
+                {Result.ABORTED, null, BuildStatus.ABORTED}
         });
     }
 
