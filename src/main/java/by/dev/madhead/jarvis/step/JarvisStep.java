@@ -35,7 +35,8 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        Jarvis.INSTANCE.notify(EmailCreator.create(run, listener), Messages.jarvis_step_JarvisStep_fromName(), recipients);
+        Jarvis.INSTANCE.notify(EmailCreator.create(run, workspace, launcher, listener),
+                Messages.jarvis_step_JarvisStep_fromName(), recipients);
     }
 
     @Override
