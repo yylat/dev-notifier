@@ -4,7 +4,7 @@ import by.dev.madhead.jarvis.model.BuildStatus;
 import hudson.model.Result;
 import hudson.model.Run;
 
-public class BuildStatusQualifier {
+public final class BuildStatusQualifier {
 
     private BuildStatusQualifier() {
     }

@@ -87,9 +87,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -134,9 +132,7 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -182,9 +178,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -206,9 +200,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -247,9 +239,7 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -289,9 +279,7 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -331,9 +319,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -367,9 +353,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 
     @Test
@@ -406,8 +390,6 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ),
-                from,
-                to)
+        ), from, to)
     }
 }

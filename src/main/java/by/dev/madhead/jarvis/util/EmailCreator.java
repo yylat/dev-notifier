@@ -6,8 +6,8 @@ import hudson.AbortException;
 import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
-import hudson.Proc;
 import hudson.model.AbstractBuild;
+import hudson.model.Result;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.scm.ChangeLogSet;
@@ -56,6 +56,7 @@ public final class EmailCreator {
             String gitUrl = extractGitUrl(envVars);
             List<Change> changes = new ArrayList<>();
             run.getChangeSets().forEach(changeSet -> addChangesToList(launcher, workspace, gitUrl, changeSet, changes));
+            run.setResult(run.getResult() == null ? Result.SUCCESS : run.getResult());
             return create(gitUrl, run, envVars, changes);
         } else {
             throw new AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM());
@@ -115,12 +116,12 @@ public final class EmailCreator {
         try {
             String initCommand = launcher.isUnix() ? "sh -c" : "cmd /c";
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            Proc extractCommitterProc = launcher.launch()
+            launcher.launch()
                     .cmdAsSingleString(initCommand + " git show -s --format=\"%aN\" " + commitId)
                     .stdout(out)
                     .pwd(workspace)
-                    .start();
-            extractCommitterProc.join();
+                    .start()
+                    .join();
             committer = out.toString().trim();
         } catch (IOException | InterruptedException e) {
             committer = null;
