@@ -61,24 +61,36 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -87,7 +99,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -107,24 +119,36 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -132,7 +156,7 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -152,24 +176,36 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -178,11 +214,11 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
-    fun sendStillBroken(){
+    fun sendStillBroken() {
         Jarvis.notify(Email(
                 Repo(
                         slug = "jenkinsci/doktor-plugin",
@@ -200,7 +236,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -220,26 +256,35 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 )
                         )
                 ),
                 Extra(
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -259,19 +304,28 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -279,7 +333,7 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -299,18 +353,27 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix scripts",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -319,7 +382,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -339,12 +402,18 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -353,7 +422,7 @@ class EmailTest {
                 Extra(
                         supportEmail = "support@travis-ci.com"
                 )
-        ), from, to)
+        ), from, to, null)
     }
 
     @Test
@@ -371,18 +440,27 @@ class EmailTest {
                         changeSet = listOf(
                                 Change(
                                         revision = "217c8a5",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "mv -> cp",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/217c8a5"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "WIP"
                                 ),
                                 Change(
                                         revision = "df156a6",
-                                        author = "madhead",
+                                        author = Author(
+                                                username = "madhead",
+                                                email = to
+                                        ),
                                         message = "Fix #35: move document output settings upper in hierarchy of calls",
                                         link = "https://github.com/jenkinsci/doktor-plugin/commit/df156a6"
                                 )
@@ -390,6 +468,6 @@ class EmailTest {
                 ),
                 Extra(
                 )
-        ), from, to)
+        ), from, to, null)
     }
 }
