@@ -3,7 +3,7 @@
 <?jelly escape-by-default='true'?>
 
 <jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
-	<form:entry field="recipients" title="${%jarvis.step.JarvisStep.recipients}" description="${%jarvis.step.JarvisStep.description}">
+    <form:entry field="defaultRecipients" title="${%jarvis.step.JarvisStep.defaultRecipients}" description="${%jarvis.step.JarvisStep.defaultRecipientsDescription}">
         <form:textbox/>
     </form:entry>
 </jelly:jelly>

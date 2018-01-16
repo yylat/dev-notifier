@@ -2,8 +2,7 @@ package by.dev.madhead.jarvis.model
 
 data class Change(
 		val revision: String,
-		val author: String,
-		val committer: String? = null,
+		val author: Author,
 		val message: String,
 		val link: String? = null
 )

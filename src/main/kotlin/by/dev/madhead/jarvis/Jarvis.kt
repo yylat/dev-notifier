@@ -42,7 +42,7 @@ object Jarvis {
         )
     }
 
-    fun notify(email: Email, from: String, to: String) {
+    fun notify(email: Email, from: String, builderAddress: String?, defaultRecipients: String?) {
         val engine = TemplateEngine().apply {
             setTemplateResolver(ClassLoaderTemplateResolver(Jarvis::class.java.classLoader).apply {
                 templateMode = TemplateMode.HTML
@@ -81,16 +81,24 @@ object Jarvis {
             })
         }
 
-        Transport.send(
-                MimeMessage(session).apply {
-                    setFrom(InternetAddress(from))
-                    to.split(",", " ", ";").forEach {
-                        addRecipient(Message.RecipientType.TO, InternetAddress(it))
-                    }
-                    subject = email.subject
-                    setContent(content)
-                }
-        )
+        val mimeMessage = MimeMessage(session).apply {
+            if (builderAddress != null) {
+                addRecipient(Message.RecipientType.TO, InternetAddress(builderAddress))
+            }
+            defaultRecipients?.split(",", ";", " ")?.forEach {
+                addRecipient(Message.RecipientType.TO, InternetAddress(it))
+            }
+            email.build.changeSet.filter { it.author.email != null }.forEach {
+                addRecipient(Message.RecipientType.TO, InternetAddress(it.author.email))
+            }
+        }
+
+        if (mimeMessage.allRecipients.isNotEmpty()) {
+            mimeMessage.setFrom(InternetAddress(from))
+            mimeMessage.subject = email.subject
+            mimeMessage.setContent(content)
+            Transport.send(mimeMessage)
+        }
     }
 
     private fun image(buildStatus: BuildStatus): String {
@@ -100,4 +108,5 @@ object Jarvis {
             BuildStatus.UNKNOWN, BuildStatus.ABORTED -> "unknown"
         }
     }
+
 }

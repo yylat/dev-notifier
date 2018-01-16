@@ -2,7 +2,8 @@ package by.dev.madhead.jarvis.step;
 
 import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
-import by.dev.madhead.jarvis.util.EmailCreator;
+import by.dev.madhead.jarvis.creator.EmailCreatorFactory;
+import by.dev.madhead.jarvis.util.AddressExtractor;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
@@ -14,7 +15,6 @@ import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import jenkins.tasks.SimpleBuildStep;
 import org.jenkinsci.Symbol;
-import org.jetbrains.annotations.NotNull;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -25,22 +25,29 @@ import java.io.IOException;
 
 public class JarvisStep extends Notifier implements SimpleBuildStep {
 
-    private final String recipients;
+    private final String defaultRecipients;
 
     @DataBoundConstructor
-    public JarvisStep(String recipients) {
-        this.recipients = recipients;
+    public JarvisStep(String defaultRecipients) {
+        if (defaultRecipients.isEmpty()) {
+            this.defaultRecipients = null;
+        } else {
+            this.defaultRecipients = defaultRecipients;
+        }
     }
 
-    public String getRecipients() {
-        return recipients;
+    public String getDefaultRecipients() {
+        return defaultRecipients;
     }
 
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath workspace,
                         @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws IOException, InterruptedException {
-        Jarvis.INSTANCE.notify(EmailCreator.create(run, workspace, launcher, listener),
-                Messages.jarvis_step_JarvisStep_fromName(), recipients);
+        Jarvis.INSTANCE.notify(
+                EmailCreatorFactory.getCreator(run, workspace, launcher, listener).create(),
+                Messages.jarvis_step_JarvisStep_fromName(),
+                AddressExtractor.extractBuilderAddress(run),
+                defaultRecipients);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
     @Extension
     public static final class JarvisStepDescriptor extends BuildStepDescriptor<Publisher> {
 
-        @NotNull
+        @Nonnull
         @Override
         public String getDisplayName() {
             return Messages.jarvis_step_JarvisStep_displayName();
@@ -63,10 +70,12 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
             return true;
         }
 
-        public FormValidation doCheckRecipients(@QueryParameter String recipients) {
+        public FormValidation doCheckDefaultRecipients(@QueryParameter String defaultRecipients) {
             try {
-                for (String recipient : recipients.split("[;, ]")) {
-                    new InternetAddress(recipient);
+                if (defaultRecipients.isEmpty()) {
+                    for (String recipient : defaultRecipients.split("[;, ]")) {
+                        new InternetAddress(recipient);
+                    }
                 }
                 return FormValidation.ok();
             } catch (AddressException e) {
