@@ -72,7 +72,7 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
 
         public FormValidation doCheckDefaultRecipients(@QueryParameter String defaultRecipients) {
             try {
-                if (defaultRecipients.isEmpty()) {
+                if (!defaultRecipients.isEmpty()) {
                     for (String recipient : defaultRecipients.split("[;, ]")) {
                         new InternetAddress(recipient);
                     }
