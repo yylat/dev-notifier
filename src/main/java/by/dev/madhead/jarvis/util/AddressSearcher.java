@@ -5,19 +5,19 @@ import hudson.model.Run;
 import hudson.model.User;
 import hudson.tasks.Mailer;
 
-public final class AddressExtractor {
+public final class AddressSearcher {
 
-    private AddressExtractor() {
+    private AddressSearcher() {
     }
 
-    public static String extract(String userId) {
+    public static String findById(String userId) {
         User user = User.getOrCreateByIdOrFullName(userId);
         return user.getProperty(Mailer.UserProperty.class).getAddress();
     }
 
-    public static String extractBuilderAddress(Run<?, ?> run) {
+    public static String findBuilderAddress(Run<?, ?> run) {
         UserIdCause userIdCause = run.getCause(UserIdCause.class);
-        return userIdCause != null ? extract(userIdCause.getUserId()) : null;
+        return userIdCause != null ? findById(userIdCause.getUserId()) : null;
     }
 
 }
