@@ -18,15 +18,12 @@ public final class ChangesFiller {
     public static List<Change> fillChangesList(String gitUrl, FilePath workspace, List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeLogSets) throws AbortException {
         List<Change> changes = new ArrayList<>();
         try (ChangeCreator changeCreator = new ChangeCreator(gitUrl, workspace)) {
-            changeLogSets.forEach(changeLogSet -> addChangesToList(changeLogSet, changes, changeCreator));
+            changeLogSets.forEach(changeLogSet ->
+                    changeLogSet.forEach(changeLogEntry -> changes.add(changeCreator.create(changeLogEntry))));
         } catch (IOException e) {
             throw new AbortException();
         }
         return changes;
-    }
-
-    private static void addChangesToList(ChangeLogSet<? extends ChangeLogSet.Entry> changeLogSet, List<Change> changes, ChangeCreator changeCreator) {
-        changeLogSet.forEach(changeLogEntry -> changes.add(changeCreator.create(changeLogEntry)));
     }
 
 }
