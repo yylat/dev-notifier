@@ -40,6 +40,7 @@ dependencies {
     compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
     compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
     compile("javax.servlet:javax.servlet-api:3.0.1")
+    compile("org.eclipse.jgit:org.eclipse.jgit:4.5.0.201609210915-r")
 
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:$jenkinsWorkflowPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:$jenkinsWorkflowPluginVersion@jar")
@@ -48,7 +49,8 @@ dependencies {
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowPluginVersion@jar")
 
     testCompile("org.powermock:powermock-module-junit4:$powerMockVersion")
-    testCompile("org.powermock:powermock-api-mockito:$powerMockVersion")
+    testCompile("org.powermock:powermock-api-mockito2:$powerMockVersion")
+    testCompile("org.mockito:mockito-core:2.13.0")
     testCompile("junit:junit:$junitVersion")
 }
 

@@ -1,10 +1,8 @@
 package by.dev.madhead.jarvis.creator;
 
-import by.dev.madhead.jarvis.Messages;
-import hudson.AbortException;
 import hudson.FilePath;
-import hudson.Launcher;
 import hudson.model.AbstractBuild;
+import hudson.model.BuildListener;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
@@ -14,14 +12,12 @@ public final class EmailCreatorFactory {
     private EmailCreatorFactory() {
     }
 
-    public static EmailCreator getCreator(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws AbortException {
-        if (run instanceof AbstractBuild) {
-            return new ClassicEmailCreator(run, workspace, launcher, listener);
-        } else if (run instanceof WorkflowRun) {
-            return new PipelineEmailCreator(run, workspace, launcher, listener);
-        } else {
-            throw new AbortException(Messages.jarvis_hudson_AbortException_unsupportedJob());
-        }
+    public static EmailCreator getClassic(AbstractBuild<?, ?> run, BuildListener listener, FilePath workspace) {
+        return new ClassicEmailCreator(run, listener, workspace);
+    }
+
+    public static EmailCreator getPipeline(WorkflowRun run, TaskListener listener, FilePath workspace) {
+        return new PipelineEmailCreator(run, listener, workspace);
     }
 
 }
