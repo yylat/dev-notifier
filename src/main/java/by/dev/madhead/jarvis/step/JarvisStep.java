@@ -1,7 +1,7 @@
 package by.dev.madhead.jarvis.step;
 
-import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
+import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.creator.EmailCreatorFactory;
 import by.dev.madhead.jarvis.util.AddressExtractor;
 import hudson.Extension;
@@ -19,8 +19,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
 import javax.annotation.Nonnull;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 
 public class JarvisStep extends Notifier implements SimpleBuildStep {
@@ -71,16 +69,14 @@ public class JarvisStep extends Notifier implements SimpleBuildStep {
         }
 
         public FormValidation doCheckDefaultRecipients(@QueryParameter String defaultRecipients) {
-            try {
-                if (!defaultRecipients.isEmpty()) {
-                    for (String recipient : defaultRecipients.split("[;, ]")) {
-                        new InternetAddress(recipient);
+            if (!defaultRecipients.isEmpty()) {
+                for (String recipient : defaultRecipients.split("[;, ]")) {
+                    if (!recipient.matches("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$")) {
+                        return FormValidation.error(Messages.jarvis_step_JarvisStep_emailValidation());
                     }
                 }
-                return FormValidation.ok();
-            } catch (AddressException e) {
-                return FormValidation.error(e.getMessage());
             }
+            return FormValidation.ok();
         }
 
     }
