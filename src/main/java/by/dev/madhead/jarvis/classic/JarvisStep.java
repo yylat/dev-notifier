@@ -16,7 +16,6 @@ import org.kohsuke.stapler.QueryParameter;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.Objects;
 
 public class JarvisStep extends Notifier {
 
