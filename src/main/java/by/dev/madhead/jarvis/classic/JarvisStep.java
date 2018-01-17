@@ -36,7 +36,7 @@ public class JarvisStep extends Notifier {
 
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
         Jarvis.INSTANCE.notify(
-                EmailCreatorFactory.getClassic(build, listener, build.getParent().getSomeWorkspace()).create(),
+                EmailCreatorFactory.getCreator(build, listener).create(),
                 Messages.jarvis_fromName(),
                 AddressSearcher.findBuilderAddress(build),
                 defaultRecipients);

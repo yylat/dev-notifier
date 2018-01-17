@@ -29,7 +29,7 @@ public class JarvisStepExecution extends SynchronousNonBlockingStepExecution {
         FilePath workspace = getContext().get(FilePath.class);
         if (run != null && listener != null && workspace != null) {
             Jarvis.INSTANCE.notify(
-                    EmailCreatorFactory.getPipeline(run, listener, workspace).create(),
+                    EmailCreatorFactory.getCreator(run, listener, workspace).create(),
                     Messages.jarvis_fromName(),
                     AddressSearcher.findBuilderAddress(run),
                     defaultRecipients);
