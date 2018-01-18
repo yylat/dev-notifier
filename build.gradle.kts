@@ -50,7 +50,6 @@ dependencies {
 
     testCompile("org.powermock:powermock-module-junit4:$powerMockVersion")
     testCompile("org.powermock:powermock-api-mockito2:$powerMockVersion")
-    testCompile("org.mockito:mockito-core:2.13.0")
     testCompile("junit:junit:$junitVersion")
 }
 
