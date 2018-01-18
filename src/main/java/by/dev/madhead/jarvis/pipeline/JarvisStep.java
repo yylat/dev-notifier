@@ -11,6 +11,7 @@ import org.jenkinsci.plugins.workflow.steps.StepContext;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,19 +19,30 @@ import java.util.Set;
 public class JarvisStep extends Step {
 
     private final String defaultRecipients;
+    private boolean tlsEnable;
 
     @DataBoundConstructor
     public JarvisStep(String defaultRecipients) {
         this.defaultRecipients = defaultRecipients;
+        this.tlsEnable = true;
+    }
+
+    @DataBoundSetter
+    public void setTlsEnable(boolean tlsEnable) {
+        this.tlsEnable = tlsEnable;
     }
 
     public String getDefaultRecipients() {
         return defaultRecipients;
     }
 
+    public boolean isTlsEnable() {
+        return tlsEnable;
+    }
+
     @Override
     public StepExecution start(StepContext context) throws Exception {
-        return new JarvisStepExecution(context, defaultRecipients);
+        return new JarvisStepExecution(context, defaultRecipients, tlsEnable);
     }
 
     @Extension

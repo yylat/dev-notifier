@@ -3,7 +3,10 @@
 <?jelly escape-by-default='true'?>
 
 <jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
-    <form:entry field="defaultRecipients" title="${%jarvis.step.JarvisStep.defaultRecipients}" description="${%jarvis.step.JarvisStep.defaultRecipientsDescription}">
+    <form:entry field="defaultRecipients" title="${%jarvis.classic.JarvisStep.defaultRecipients}" description="${%jarvis.classic.JarvisStep.defaultRecipientsDescription}">
         <form:textbox/>
+    </form:entry>
+    <form:entry field="tlsEnable" title="${%jarvis.classic.JarvisStep.tlsEnable}">
+        <form:checkbox checked="true"/>
     </form:entry>
 </jelly:jelly>
