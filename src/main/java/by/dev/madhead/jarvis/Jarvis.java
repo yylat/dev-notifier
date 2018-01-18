@@ -74,7 +74,7 @@ public class Jarvis {
                 addresses.add(new InternetAddress(change.getAuthor().getEmail()));
             }
         }
-        return addresses.toArray(new Address[0]);
+        return addresses.toArray(new Address[addresses.size()]);
     }
 
 }
