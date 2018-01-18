@@ -15,12 +15,10 @@ public class ClassicEmailCreator extends EmailCreator {
 
     private AbstractBuild<?, ?> run;
     private BuildListener listener;
-    private FilePath workspace;
 
-    ClassicEmailCreator(AbstractBuild<?, ?> run, BuildListener listener, FilePath workspace) {
+    ClassicEmailCreator(AbstractBuild<?, ?> run, BuildListener listener) {
         this.run = run;
         this.listener = listener;
-        this.workspace = workspace;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class ClassicEmailCreator extends EmailCreator {
         if (run.getParent().getScm() != null) {
             EnvVars envVars = run.getEnvironment(listener);
             String gitUrl = findGitUrl(envVars);
-            return create(run, gitUrl, envVars, ChangesFiller.fillChangesList(gitUrl, workspace, run.getChangeSets()));
+            return create(run, gitUrl, envVars, ChangesFiller.fillChangesList(gitUrl, run.getWorkspace(), run.getChangeSets()));
         } else {
             throw new AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM());
         }

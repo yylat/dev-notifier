@@ -12,7 +12,7 @@ public final class EmailCreatorFactory {
     }
 
     public static EmailCreator getCreator(AbstractBuild<?, ?> run, BuildListener listener) {
-        return new ClassicEmailCreator(run, listener, run.getWorkspace());
+        return new ClassicEmailCreator(run, listener);
     }
 
     public static EmailCreator getCreator(WorkflowRun run, TaskListener listener, FilePath workspace) {
