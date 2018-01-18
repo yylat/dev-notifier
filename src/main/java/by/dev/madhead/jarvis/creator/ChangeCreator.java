@@ -18,9 +18,7 @@ public class ChangeCreator implements AutoCloseable {
 
     public ChangeCreator(String gitUrl, FilePath workspace) throws IOException {
         this.gitUrl = gitUrl;
-        this.authorCreator = new AuthorCreator(new RepositoryBuilder()
-                .setGitDir(new File(workspace.getRemote() + "\\.git"))
-                .build());
+        this.authorCreator = new AuthorCreator(workspace);
     }
 
     public Change create(ChangeLogSet.Entry changeLogEntry) {

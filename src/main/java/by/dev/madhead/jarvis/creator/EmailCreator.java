@@ -24,7 +24,9 @@ public abstract class EmailCreator {
                         envVars.get("GIT_BRANCH").substring(envVars.get("GIT_BRANCH").lastIndexOf("/") + 1),
                         envVars.get("GIT_COMMIT").substring(0, 7),
                         BuildStatusQualifier.defineBuildStatus(run),
-                        Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
+                        run.getDuration() > 0
+                                ? Duration.ofMillis(run.getDuration())
+                                : Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
                         envVars.get("BUILD_URL"),
                         changes),
                 new Extra(
