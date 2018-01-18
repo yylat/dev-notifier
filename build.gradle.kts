@@ -25,6 +25,8 @@ repositories {
 val kotlinVersion by project
 val thymeleafVersion by project
 val javaxMailVersion by project
+val javaxServletVersion by project
+val jGitVersion by project
 val junitVersion by project
 val powerMockVersion by project
 
@@ -35,12 +37,12 @@ val jenkinsWorkflowPluginVersion by project
 val jenkinsCoreVersion by project
 
 dependencies {
-    compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
-    compile("com.sun.mail:javax.mail:${javaxMailVersion}")
-    compile("org.thymeleaf:thymeleaf:${thymeleafVersion}")
-    compile("org.jenkins-ci.main:jenkins-core:${jenkinsCoreVersion}")
-    compile("javax.servlet:javax.servlet-api:3.0.1")
-    compile("org.eclipse.jgit:org.eclipse.jgit:4.5.0.201609210915-r")
+    compile(kotlin("stdlib-jre8", "$kotlinVersion"))
+    compile("com.sun.mail:javax.mail:$javaxMailVersion")
+    compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
+    compile("org.jenkins-ci.main:jenkins-core:$jenkinsCoreVersion")
+    compile("javax.servlet:javax.servlet-api:$javaxServletVersion")
+    compile("org.eclipse.jgit:org.eclipse.jgit:$jGitVersion")
 
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:$jenkinsWorkflowPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:$jenkinsWorkflowPluginVersion@jar")
