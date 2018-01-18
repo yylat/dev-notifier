@@ -20,7 +20,6 @@ import org.kohsuke.stapler.QueryParameter;
 import javax.annotation.Nonnull;
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class JarvisStep extends Notifier {
 
