@@ -85,7 +85,7 @@ public class MessageBuilderTest {
                             add(new InternetAddress("address@email.com"));
                         }}),
                         true, 1},
-                
+
                 {new MessageBuilder(
                         new Email(
                                 new Repo("slug", "link"),
@@ -108,7 +108,33 @@ public class MessageBuilderTest {
                                         }}),
                                 new Extra("supportEmail")),
                         new HashSet<>()),
-                        true, 2}
+                        true, 2},
+
+                {new MessageBuilder(
+                        new Email(
+                                new Repo("slug", "link"),
+                                new Build(1, "branch", "revision",
+                                        BuildStatus.PASSED, Duration.ofSeconds(100), "link",
+                                        new ArrayList<Change>() {{
+                                            add(new Change(
+                                                    "revision1",
+                                                    new Author(
+                                                            "username1",
+                                                            "wrong_email"),
+                                                    "message",
+                                                    "link"));
+                                            add(new Change("revision2",
+                                                    new Author(
+                                                            "username2",
+                                                            "username2@email.com"),
+                                                    "message",
+                                                    "link"));
+                                        }}),
+                                new Extra("supportEmail")),
+                        new HashSet<Address>() {{
+                            add(new InternetAddress("address@email.com"));
+                        }}),
+                        true, 2},
         });
     }
 
