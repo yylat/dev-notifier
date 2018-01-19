@@ -1,6 +1,7 @@
 package by.dev.madhead.jarvis;
 
 import by.dev.madhead.jarvis.model.*;
+import by.dev.madhead.jarvis.util.RecipientParser;
 import hudson.tasks.Mailer;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,10 +10,14 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import javax.mail.Address;
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -26,7 +31,13 @@ public class EmailTest {
 
     private static Jarvis jarvis;
 
-    private final String to = System.getenv("JARVIS_TO");
+    private final String to;
+    private final InternetAddress toAddress;
+
+    public EmailTest() throws AddressException {
+        to = System.getenv("JARVIS_TO");
+        toAddress = new InternetAddress(to);
+    }
 
     @BeforeClass
     public static void setUp() {
@@ -59,7 +70,7 @@ public class EmailTest {
                                 new ArrayList<>()),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<>());
     }
 
     @Test
@@ -92,7 +103,9 @@ public class EmailTest {
                                 }}),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -119,7 +132,9 @@ public class EmailTest {
                                 }}),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -146,7 +161,9 @@ public class EmailTest {
                                 }}),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -165,7 +182,9 @@ public class EmailTest {
                                 new ArrayList<>()),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -199,7 +218,9 @@ public class EmailTest {
                                 }}),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -218,7 +239,9 @@ public class EmailTest {
                                 new ArrayList<>()),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     @Test
@@ -245,7 +268,9 @@ public class EmailTest {
                                 }}),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     public void sendAborted() throws IOException, MessagingException {
@@ -264,7 +289,9 @@ public class EmailTest {
                         ),
                         new Extra(
                                 "support@travis-ci.com")),
-                null, null);
+                new HashSet<Address>() {{
+                    add(toAddress);
+                }});
     }
 
     private int random(int start, int end) {

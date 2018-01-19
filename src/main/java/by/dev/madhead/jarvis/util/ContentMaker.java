@@ -16,7 +16,7 @@ import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.util.Random;
 
-public final class ContentMaker {
+public class ContentMaker {
 
     private final static String PATH_TO_IMAGES = "/by/dev/madhead/jarvis/images/";
     private final static String IMAGE_PNG = "image/png";

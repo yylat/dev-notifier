@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 public class MessageBuilder {
 
     private final Email email;
-    private Set<Address> addresses;
+    private final Set<Address> addresses;
 
     public MessageBuilder(Email email, Set<Address> addresses) {
-        this.email = email;
-        RecipientParser.addAddresses(addresses, email.getBuild()
-                .getChangeSet().stream()
+        email.getBuild().getChangeSet().stream()
                 .map(change -> change.getAuthor().getEmail())
                 .filter(Objects::nonNull)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet())
+                .forEach(authorEmail -> RecipientParser.addStringAsAddress(addresses, authorEmail));
+        this.email = email;
         this.addresses = addresses;
     }
 

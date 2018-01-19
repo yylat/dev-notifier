@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class RecipientParser {
+public class RecipientParser {
 
     private final static Logger LOGGER = Logger.getLogger(RecipientParser.class.getName());
 
@@ -20,7 +20,7 @@ public final class RecipientParser {
         Set<Address> defaultAddresses = new HashSet<>();
 
         String builderAddress = AddressSearcher.findBuilderAddress(run);
-        if (builderAddress != null && isValidAddresses(builderAddress)) {
+        if (builderAddress != null) {
             addStringAsAddress(defaultAddresses, builderAddress);
         }
 
@@ -31,10 +31,6 @@ public final class RecipientParser {
         }
 
         return defaultAddresses;
-    }
-
-    public static void addAddresses(Set<Address> addresses, Set<String> recipients) {
-        recipients.forEach(recipient -> addStringAsAddress(addresses, recipient));
     }
 
     public static boolean isValidAddresses(String recipients) {
@@ -50,11 +46,15 @@ public final class RecipientParser {
         return address.matches("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$");
     }
 
-    private static void addStringAsAddress(Set<Address> addresses, String address) {
-        try {
-            addresses.add(new InternetAddress(address));
-        } catch (AddressException e) {
-            LOGGER.log(Level.WARNING, "Error while parsing email address: [" + address + "].", e);
+    public static void addStringAsAddress(Set<Address> addresses, String address) {
+        if (isValidAddress(address)) {
+            try {
+                addresses.add(new InternetAddress(address));
+            } catch (AddressException e) {
+                LOGGER.log(Level.WARNING, "Error while parsing email address: [\"" + address + "\"].", e);
+            }
+        } else {
+            LOGGER.log(Level.WARNING, "Not valid email address: [\"" + address + "\"].");
         }
     }
 

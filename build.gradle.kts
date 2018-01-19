@@ -29,11 +29,11 @@ val javaxServletVersion by project
 val jGitVersion by project
 val junitVersion by project
 val powerMockVersion by project
+val hamcrestVersion by project
 
 val jenkinsMailerPluginVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowPluginVersion by project
-
 val jenkinsCoreVersion by project
 
 dependencies {
@@ -53,6 +53,7 @@ dependencies {
     testCompile("org.powermock:powermock-module-junit4:$powerMockVersion")
     testCompile("org.powermock:powermock-api-mockito2:$powerMockVersion")
     testCompile("junit:junit:$junitVersion")
+    testCompile("org.hamcrest:hamcrest-all:$hamcrestVersion")
 }
 
 java {

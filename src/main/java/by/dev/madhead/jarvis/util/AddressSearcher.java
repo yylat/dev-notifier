@@ -5,7 +5,7 @@ import hudson.model.Run;
 import hudson.model.User;
 import hudson.tasks.Mailer;
 
-public final class AddressSearcher {
+public class AddressSearcher {
 
     private AddressSearcher() {
     }
