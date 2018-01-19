@@ -12,7 +12,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MessageBuilder {
 
@@ -23,7 +22,7 @@ public class MessageBuilder {
         email.getBuild().getChangeSet().stream()
                 .map(change -> change.getAuthor().getEmail())
                 .filter(Objects::nonNull)
-                .collect(Collectors.toSet())
+                .distinct()
                 .forEach(authorEmail -> RecipientParser.addStringAsAddress(addresses, authorEmail));
         this.email = email;
         this.addresses = addresses;
