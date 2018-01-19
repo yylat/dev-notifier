@@ -81,6 +81,8 @@ public class RecipientParserTest {
         RecipientParser.addStringAsAddress(addresses, builderAddress);
         if (validAddress) {
             verify(addresses, times(1)).add(new InternetAddress(builderAddress));
+        } else {
+            verify(addresses, never()).add(Mockito.any());
         }
     }
 

@@ -1,9 +1,9 @@
 package by.dev.madhead.jarvis;
 
 import by.dev.madhead.jarvis.model.*;
-import by.dev.madhead.jarvis.util.RecipientParser;
 import hudson.tasks.Mailer;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -24,6 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Mailer.class)
 @PowerMockIgnore({"com.sun.mail.*", "javax.mail.*", "javax.activation.*"})
