@@ -48,14 +48,4 @@ public class Jarvis {
         }
     }
 
-    private Authenticator initAuthenticator(String smtpAuthUserName, String smtpAuthPassword) {
-        return smtpAuthUserName != null ?
-                new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(smtpAuthUserName, smtpAuthPassword);
-                    }
-                } : null;
-    }
-
 }
