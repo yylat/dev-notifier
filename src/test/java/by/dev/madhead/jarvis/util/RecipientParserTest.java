@@ -11,13 +11,14 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import javax.mail.Address;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 
 import static org.mockito.Mockito.*;
@@ -77,12 +78,12 @@ public class RecipientParserTest {
 
     @Test
     public void addStringAsAddress() throws AddressException {
-        Set<Address> addresses = mock(Set.class);
+        Set<Address> addresses = new HashSet<>(1);
         RecipientParser.addStringAsAddress(addresses, builderAddress);
         if (validAddress) {
-            verify(addresses, times(1)).add(new InternetAddress(builderAddress));
+            assertThat(addresses, hasSize(1));
         } else {
-            verify(addresses, never()).add(Mockito.any());
+            assertThat(addresses, empty());
         }
     }
 
