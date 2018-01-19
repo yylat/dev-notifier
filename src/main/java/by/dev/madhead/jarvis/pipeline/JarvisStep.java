@@ -1,6 +1,8 @@
 package by.dev.madhead.jarvis.pipeline;
 
 import by.dev.madhead.jarvis.Messages;
+import by.dev.madhead.jarvis.util.RecipientParser;
+import hudson.AbortException;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.model.Run;
@@ -42,7 +44,11 @@ public class JarvisStep extends Step {
 
     @Override
     public StepExecution start(StepContext context) throws Exception {
-        return new JarvisStepExecution(context, defaultRecipients, tlsEnable);
+        if (RecipientParser.isValidAddresses(defaultRecipients)) {
+            return new JarvisStepExecution(context, defaultRecipients, tlsEnable);
+        } else {
+            throw new AbortException(Messages.jarvis_validation_email());
+        }
     }
 
     @Extension

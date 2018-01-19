@@ -1,14 +1,11 @@
 package by.dev.madhead.jarvis.creator;
 
-import by.dev.madhead.jarvis.creator.AuthorCreator;
 import by.dev.madhead.jarvis.model.Author;
 import by.dev.madhead.jarvis.model.Change;
 import by.dev.madhead.jarvis.util.AddressSearcher;
 import hudson.FilePath;
 import hudson.scm.ChangeLogSet;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 
-import java.io.File;
 import java.io.IOException;
 
 public class ChangeCreator implements AutoCloseable {
@@ -40,4 +37,5 @@ public class ChangeCreator implements AutoCloseable {
     public void close() {
         authorCreator.close();
     }
+
 }

@@ -3,7 +3,7 @@ package by.dev.madhead.jarvis.pipeline;
 import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
 import by.dev.madhead.jarvis.creator.EmailCreatorFactory;
-import by.dev.madhead.jarvis.util.AddressSearcher;
+import by.dev.madhead.jarvis.util.RecipientParser;
 import hudson.AbortException;
 import hudson.FilePath;
 import hudson.model.TaskListener;
@@ -44,7 +44,7 @@ public class JarvisStepExecution extends SynchronousNonBlockingStepExecution {
         Jarvis jarvis = new Jarvis(tlsEnable);
         try {
             jarvis.sendMail(EmailCreatorFactory.getCreator(run, listener, workspace).create(),
-                    AddressSearcher.findBuilderAddress(run), defaultRecipients);
+                    RecipientParser.createDefaultAddressesSet(run, defaultRecipients));
         } catch (IOException | MessagingException e) {
             throw new AbortException(e.getMessage());
         }

@@ -3,7 +3,7 @@ package by.dev.madhead.jarvis.classic;
 import by.dev.madhead.jarvis.Messages;
 import by.dev.madhead.jarvis.Jarvis;
 import by.dev.madhead.jarvis.creator.EmailCreatorFactory;
-import by.dev.madhead.jarvis.util.AddressSearcher;
+import by.dev.madhead.jarvis.util.RecipientParser;
 import hudson.AbortException;
 import hudson.Extension;
 import hudson.Launcher;
@@ -48,7 +48,7 @@ public class JarvisStep extends Notifier {
         Jarvis jarvis = new Jarvis(tlsEnable);
         try {
             jarvis.sendMail(EmailCreatorFactory.getCreator(build, listener).create(),
-                    AddressSearcher.findBuilderAddress(build), defaultRecipients);
+                    RecipientParser.createDefaultAddressesSet(build, defaultRecipients));
         } catch (IOException | MessagingException e) {
             throw new AbortException(e.getMessage());
         }
@@ -71,10 +71,8 @@ public class JarvisStep extends Notifier {
 
         public FormValidation doCheckDefaultRecipients(@QueryParameter String defaultRecipients) {
             if (!defaultRecipients.isEmpty()) {
-                for (String recipient : defaultRecipients.split("[;, ]")) {
-                    if (!recipient.matches("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+$")) {
-                        return FormValidation.error(Messages.jarvis_validation_email());
-                    }
+                if (!RecipientParser.isValidAddresses(defaultRecipients)) {
+                    return FormValidation.error(Messages.jarvis_validation_email());
                 }
             }
             return FormValidation.ok();
