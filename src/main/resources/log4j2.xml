@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <property name="filePattern">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{3} - %msg%n</property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="File"
+                     fileName="logs/jarvis/log.txt"
+                     filePattern="logs/jarvis/$${date:yyyy-MM-dd}/log-%i.txt">
+            <PatternLayout pattern="${filePattern}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1000 KB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

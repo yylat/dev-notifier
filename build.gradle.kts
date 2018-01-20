@@ -30,6 +30,7 @@ val jGitVersion by project
 val junitVersion by project
 val powerMockVersion by project
 val hamcrestVersion by project
+val log4jVersion by project
 
 val jenkinsMailerPluginVersion by project
 val jenkinsCredentialsPluginVersion by project
@@ -43,6 +44,9 @@ dependencies {
     compile("org.jenkins-ci.main:jenkins-core:$jenkinsCoreVersion")
     compile("javax.servlet:javax.servlet-api:$javaxServletVersion")
     compile("org.eclipse.jgit:org.eclipse.jgit:$jGitVersion")
+
+    compile("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    compile("org.apache.logging.log4j:log4j-api:$log4jVersion")
 
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:$jenkinsWorkflowPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:$jenkinsWorkflowPluginVersion@jar")
