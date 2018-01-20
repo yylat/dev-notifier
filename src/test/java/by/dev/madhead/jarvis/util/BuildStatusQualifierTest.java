@@ -59,13 +59,8 @@ public class BuildStatusQualifierTest {
     @Before
     public void setUp() {
         when(run.getResult()).thenReturn(currentResult);
-
-        if (previousResult != null) {
-            when(run.getPreviousBuild()).thenReturn(previousRun);
-            when(previousRun.getResult()).thenReturn(previousResult);
-        } else {
-            when(run.getPreviousBuild()).thenReturn(null);
-        }
+        when(run.getPreviousBuild()).thenReturn(previousRun);
+        when(previousRun.getResult()).thenReturn(previousResult);
     }
 
     @Test
