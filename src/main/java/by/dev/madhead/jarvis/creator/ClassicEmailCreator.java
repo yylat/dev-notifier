@@ -5,7 +5,6 @@ import by.dev.madhead.jarvis.model.Email;
 import by.dev.madhead.jarvis.util.ChangesFiller;
 import hudson.AbortException;
 import hudson.EnvVars;
-import hudson.FilePath;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 

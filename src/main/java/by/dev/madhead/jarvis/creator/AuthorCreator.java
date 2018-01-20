@@ -3,7 +3,6 @@ package by.dev.madhead.jarvis.creator;
 import by.dev.madhead.jarvis.model.Author;
 import hudson.FilePath;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;

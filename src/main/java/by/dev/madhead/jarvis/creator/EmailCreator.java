@@ -4,7 +4,6 @@ import by.dev.madhead.jarvis.model.*;
 import by.dev.madhead.jarvis.util.BuildStatusQualifier;
 import hudson.EnvVars;
 import hudson.model.Run;
-import hudson.model.TaskListener;
 
 import java.io.IOException;
 import java.time.Duration;
