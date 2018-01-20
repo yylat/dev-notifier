@@ -21,6 +21,10 @@ import javax.annotation.Nonnull;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
+/**
+ * Represents email notification post-build step
+ * for builds like freestyle project.
+ */
 public class JarvisStep extends Notifier {
 
     private final String defaultRecipients;
