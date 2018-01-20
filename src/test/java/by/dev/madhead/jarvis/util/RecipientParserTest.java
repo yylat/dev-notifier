@@ -11,7 +11,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import javax.mail.Address;
-import javax.mail.internet.AddressException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -79,7 +78,7 @@ public class RecipientParserTest {
     }
 
     @Test
-    public void addStringAsAddress() throws AddressException {
+    public void addStringAsAddress() {
         Set<Address> addresses = new HashSet<>(1);
         RecipientParser.addStringAsAddress(addresses, builderAddress);
         if (validAddress) {
