@@ -3,6 +3,9 @@ package by.dev.madhead.jarvis;
 import by.dev.madhead.jarvis.model.Email;
 import by.dev.madhead.jarvis.util.MessageBuilder;
 import hudson.tasks.Mailer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -13,12 +16,10 @@ import javax.mail.Transport;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Jarvis {
 
-    private static final Logger LOGGER = Logger.getLogger(Jarvis.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final Session session;
 
@@ -44,7 +45,7 @@ public class Jarvis {
         if (messageBuilder.isMsgHasRecipients()) {
             Transport.send(messageBuilder.buildMessage(session));
         } else {
-            LOGGER.log(Level.FINE, "No recipients to send mail.");
+            LOGGER.log(Level.INFO, "No recipients to send mail.");
         }
     }
 

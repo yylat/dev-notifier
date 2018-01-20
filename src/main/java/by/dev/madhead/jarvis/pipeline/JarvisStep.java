@@ -17,6 +17,9 @@ import org.kohsuke.stapler.DataBoundSetter;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents email notification step for pipelines.
+ */
 public class JarvisStep extends Step {
 
     private final String defaultRecipients;

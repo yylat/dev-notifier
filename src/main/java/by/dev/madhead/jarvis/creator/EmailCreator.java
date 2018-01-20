@@ -9,10 +9,30 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
+/**
+ * Provides base functionality for email object creation.
+ */
 public abstract class EmailCreator {
 
+    /**
+     * Creates email by defining all needed parameters for
+     * {@link #create(Run, String, EnvVars, List)} method.
+     *
+     * @return email
+     * @throws IOException          if can not load components for message
+     * @throws InterruptedException if can not define environmental variables
+     */
     public abstract Email create() throws IOException, InterruptedException;
 
+    /**
+     * Creates email.
+     *
+     * @param run     run of the build
+     * @param gitUrl  url address of git repository
+     * @param envVars environmental variables
+     * @param changes list of changes
+     * @return email
+     */
     Email create(Run<?, ?> run, String gitUrl, EnvVars envVars, List<Change> changes) {
         return new Email(
                 new Repo(
