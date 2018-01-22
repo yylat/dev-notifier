@@ -5,21 +5,28 @@ import by.dev.madhead.jarvis.model.Change;
 import by.dev.madhead.jarvis.util.AddressSearcher;
 import hudson.FilePath;
 import hudson.scm.ChangeLogSet;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.File;
 import java.io.IOException;
 
-public class ChangeCreator implements AutoCloseable {
+public class ChangeCreator {
 
     private final String gitUrl;
-    private final AuthorCreator authorCreator;
+    private Repository repository;
 
     public ChangeCreator(String gitUrl, FilePath workspace) throws IOException {
         this.gitUrl = gitUrl;
-        this.authorCreator = new AuthorCreator(workspace);
+        this.repository = new RepositoryBuilder().setGitDir(
+                new File(workspace.getRemote() + "/.git")).build();
     }
 
     public Change create(ChangeLogSet.Entry changeLogEntry) {
-        Author author = authorCreator.find(changeLogEntry.getCommitId());
+        Author author = find(changeLogEntry.getCommitId());
         if (author == null) {
             author = new Author(
                     changeLogEntry.getAuthor().getId(),
@@ -32,10 +39,13 @@ public class ChangeCreator implements AutoCloseable {
                 gitUrl.concat("/commit/" + changeLogEntry.getCommitId()));
     }
 
-
-    @Override
-    public void close() {
-        authorCreator.close();
+    private Author find(String commitId) {
+        try (RevWalk revWalk = new RevWalk(repository)) {
+            RevCommit revCommit = revWalk.parseCommit(ObjectId.fromString(commitId));
+            return new Author(revCommit.getAuthorIdent().getName(), revCommit.getAuthorIdent().getEmailAddress());
+        } catch (IOException e) {
+            return null;
+        }
     }
 
 }
