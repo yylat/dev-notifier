@@ -46,7 +46,7 @@ public class RecipientParser {
     }
 
     public static boolean isValidAddress(String address) {
-        return address.matches("([a-zA-Z0-9]+[-_.]?)+@[a-z0-9.-]+\\.[a-z]+$");
+        return address.matches("([a-zA-Z0-9]+[-_.]?)+@[a-z0-9]+\\.[a-z]+$");
     }
 
     public static void addStringAsAddress(Set<Address> addresses, String address) {
