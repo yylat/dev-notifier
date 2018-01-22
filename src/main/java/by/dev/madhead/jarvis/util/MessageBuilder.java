@@ -22,7 +22,6 @@ public class MessageBuilder {
         email.getBuild().getChangeSet().stream()
                 .map(change -> change.getAuthor().getEmail())
                 .filter(Objects::nonNull)
-                .distinct()
                 .forEach(authorEmail -> RecipientParser.addStringAsAddress(addresses, authorEmail));
         this.email = email;
         this.addresses = addresses;

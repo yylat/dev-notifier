@@ -28,7 +28,6 @@ import java.io.IOException;
 public class JarvisStep extends Notifier {
 
     private final String defaultRecipients;
-    private final boolean tlsEnable;
 
     @DataBoundConstructor
     public JarvisStep(String defaultRecipients, boolean tlsEnable) {
@@ -37,19 +36,14 @@ public class JarvisStep extends Notifier {
         } else {
             this.defaultRecipients = defaultRecipients;
         }
-        this.tlsEnable = tlsEnable;
     }
 
     public String getDefaultRecipients() {
         return defaultRecipients;
     }
 
-    public boolean isTlsEnable() {
-        return tlsEnable;
-    }
-
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
-        Jarvis jarvis = new Jarvis(tlsEnable);
+        Jarvis jarvis = new Jarvis();
         try {
             jarvis.sendMail(EmailCreatorFactory.getCreator(build, listener).create(),
                     RecipientParser.createDefaultAddressesSet(build, defaultRecipients));

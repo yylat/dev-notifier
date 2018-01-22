@@ -17,11 +17,12 @@ public class ChangesFiller {
 
     public static List<Change> fillChangesList(String gitUrl, FilePath workspace, List<ChangeLogSet<? extends ChangeLogSet.Entry>> changeLogSets) throws AbortException {
         List<Change> changes = new ArrayList<>();
-        try (ChangeCreator changeCreator = new ChangeCreator(gitUrl, workspace)) {
+        try {
+            ChangeCreator changeCreator = new ChangeCreator(gitUrl, workspace);
             changeLogSets.forEach(changeLogSet ->
                     changeLogSet.forEach(changeLogEntry -> changes.add(changeCreator.create(changeLogEntry))));
         } catch (IOException e) {
-            throw new AbortException();
+            throw new AbortException(e.getMessage());
         }
         return changes;
     }

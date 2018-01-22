@@ -18,12 +18,10 @@ import java.io.IOException;
 public class JarvisStepExecution extends SynchronousNonBlockingStepExecution {
 
     private final String defaultRecipients;
-    private final boolean tlsEnable;
 
-    JarvisStepExecution(@Nonnull StepContext context, String defaultRecipients, boolean tlsEnable) {
+    JarvisStepExecution(@Nonnull StepContext context, String defaultRecipients) {
         super(context);
         this.defaultRecipients = defaultRecipients;
-        this.tlsEnable = tlsEnable;
     }
 
     @Override
@@ -41,7 +39,7 @@ public class JarvisStepExecution extends SynchronousNonBlockingStepExecution {
             throw new AbortException(Messages.jarvis_hudson_AbortException_workspaceRequired());
         }
 
-        Jarvis jarvis = new Jarvis(tlsEnable);
+        Jarvis jarvis = new Jarvis();
         try {
             jarvis.sendMail(EmailCreatorFactory.getCreator(run, listener, workspace).create(),
                     RecipientParser.createDefaultAddressesSet(run, defaultRecipients));

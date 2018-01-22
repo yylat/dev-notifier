@@ -6,7 +6,4 @@
     <form:entry field="defaultRecipients" title="${%jarvis.classic.JarvisStep.defaultRecipients}" description="${%jarvis.classic.JarvisStep.defaultRecipientsDescription}">
         <form:textbox/>
     </form:entry>
-    <form:entry field="tlsEnable" title="${%jarvis.classic.JarvisStep.tlsEnable}">
-        <form:checkbox checked="true"/>
-    </form:entry>
 </jelly:jelly>

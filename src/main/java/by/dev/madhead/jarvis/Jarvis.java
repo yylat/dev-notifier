@@ -23,13 +23,13 @@ public class Jarvis {
 
     private final Session session;
 
-    public Jarvis(boolean tlsEnable) {
+    public Jarvis() {
         Mailer.DescriptorImpl mailerDescriptor = Mailer.descriptor();
         Properties properties = new Properties();
         properties.put("mail.smtp.host", mailerDescriptor.getSmtpServer());
         properties.put("mail.smtp.port", mailerDescriptor.getSmtpPort());
         properties.put("mail.smtp.auth", mailerDescriptor.getSmtpAuthUserName() != null);
-        properties.put("mail.smtp.starttls.enable", tlsEnable);
+        properties.put("mail.smtp.ssl.enable", mailerDescriptor.getUseSsl());
 
         this.session = Session.getDefaultInstance(properties, mailerDescriptor.getSmtpAuthUserName() != null ?
                 new Authenticator() {
