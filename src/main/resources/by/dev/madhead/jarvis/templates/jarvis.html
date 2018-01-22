@@ -63,11 +63,11 @@
 								th:style="|background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
 								style="background-color: #baecb7; color: #32a32d">
 							<td style="width: 10px"></td>
-							<td style="width: 1px; height: 1px">
+							<td style="width: 25px; height: 25px">
 								<img
 										th:src="'cid:status.png'"
 										src="../images/status-success.png"
-										width="25" height="25" alt="Build status"/>
+										alt="Build status"/>
 							</td>
 							<td style="width: 10px"></td>
 							<td style="font-size: 18px">
@@ -79,10 +79,10 @@
 									   style="color: #32a32d"></a>
 								</strong>
 							</td>
-							<td style="width: 1px; height: 1px">
+							<td style="width: 25px; height: 25px">
 								<img th:src="'cid:duration.png'"
 								     src="../images/duration-success.png"
-								     width="25" height="25" alt="Build duration"/>
+								     alt="Build duration"/>
 							</td>
 							<td style="width: 10px"></td>
 							<td th:text="${email.build.durationForHumans}"
@@ -143,11 +143,11 @@
 						</tr>
 						<tr>
 							<td style="width: 10px"></td>
-							<td style="width: 1px; height: 1px">
-								<img
+							<td style="width: 37px">
+								<img style="max-width: 37px;"
 										th:src="'cid:jenkins.png'"
 										src="../images/jenkins.png"
-										height="50" alt="Build status"/>
+                                        alt="Build status"/>
 							</td>
 							<td style="width: 10px"></td>
 							<td style="font-size: 12px">
