@@ -8,7 +8,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title th:text="|${#messages.msg('status.' + email.build.status.name())}: ${email.repo.slug} ${'#'} ${email.build.number} (${#strings.isEmpty(email.build.branch) ? email.build.revision : email.build.branch + ' - ' + email.build.revision})|">
-			Passed: madhead/jarvis#42 (master - 429c3f7)
 		</title>
 		<style type="text/css">
 			body {
@@ -48,7 +47,7 @@
 								</strong>
 
 								<span th:unless="${#strings.isEmpty(email.build.branch)}"
-								      th:text="#{branch(${email.build.branch})}">(master)</span>
+								      th:text="#{branch(${email.build.branch})}"></span>
 							</td>
 						</tr>
 						<tr style="height: 15px"></tr>
@@ -77,7 +76,7 @@
 									   th:text="${#messages.msg('status.' + email.build.status + '.description', email.build.number)}"
 									   th:href="${email.build.link}"
 									   href="https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
-									   style="color: #32a32d">Build #42 passed.</a>
+									   style="color: #32a32d"></a>
 								</strong>
 							</td>
 							<td style="width: 1px; height: 1px">
@@ -88,7 +87,6 @@
 							<td style="width: 10px"></td>
 							<td th:text="${email.build.durationForHumans}"
 							    style="font-size: 12px; width: 170px">
-								7 days 35 minutes 8 seconds
 							</td>
 							<td style="width: 10px"></td>
 						</tr>
@@ -99,13 +97,11 @@
 						<tr th:if="${not #lists.isEmpty(email.build.changeSet)}">
 							<td colspan="8">
 								<table width="100%">
-									<tr th:each="change:${email.build.changeSet}">
-										<table width="100%">
+									<th:block th:each="change:${email.build.changeSet}">
 											<tr>
 												<td style="width: 10px" rowspan="2"></td>
 												<td>
 													<strong th:text="${change.author.username}" style="font-size: 16px">
-														madhead
 													</strong>
 												</td>
 												<td style="text-align: right">
@@ -126,12 +122,11 @@
 											<tr>
 												<td colspan="2">
 											<pre th:text="${change.message}"
-											     style="color: #606060; font-size: 15px; margin: 5px">Merge pull request #8 from jenkinsci/cd
-Fix scripts</pre>
+											     style="color: #606060; font-size: 15px; margin: 5px">
+                                            </pre>
 												</td>
 											</tr>
-										</table>
-									</tr>
+									</th:block>
 								</table>
 							</td>
 						</tr>
