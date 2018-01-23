@@ -1,3 +1,4 @@
+import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
 import org.junit.platform.gradle.plugin.JUnitPlatformExtension
 import org.junit.platform.gradle.plugin.JUnitPlatformPlugin
 
@@ -73,6 +74,22 @@ jenkinsPlugin {
     compatibleSinceVersion = coreVersion
     fileExtension = "jpi"
     pluginFirstClassLoader = false
+
+    developers = this.Developers().apply {
+        developer(delegateClosureOf<JpiDeveloper> {
+            setProperty("id", "madhead")
+            setProperty("name", "Siarhei Krukau")
+            setProperty("email", "siarhei.krukau@gmail.com")
+            setProperty("url", "https://madhead.me")
+            setProperty("timezone", "UTC+3")
+        })
+        developer(delegateClosureOf<JpiDeveloper> {
+            setProperty("id", "vhs21")
+            setProperty("name", "Uladzislau Shamionak")
+            setProperty("email", "uladzislau.shamionak@gmail.com")
+            setProperty("timezone", "UTC+3")
+        })
+    }
 }
 
 task<Wrapper>("wrapper") {
