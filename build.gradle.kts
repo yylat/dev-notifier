@@ -68,7 +68,7 @@ java {
 jenkinsPlugin {
     displayName = "Jarvis"
     shortName = "jarvis"
-    gitHubUrl = "https://github.com/madhead/jarvis"
+    gitHubUrl = "https://github.com/vhs21/jarvis"
 
     coreVersion = jenkinsCoreVersion as String?
     compatibleSinceVersion = coreVersion
