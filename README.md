@@ -13,3 +13,7 @@ Configuration in build like freestyle job:
 Configuration in pipeline:
 
 ![Pipeline config](/.github/images/pipeline.jpg)
+
+Mailer plugin configuration:
+
+![Mailer config](/.github/images/mailer_config.jpg)
