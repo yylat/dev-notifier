@@ -66,7 +66,7 @@ java {
 }
 
 jenkinsPlugin {
-    displayName = "Jarvis Notifier"
+    displayName = "Jarvis"
     shortName = "jarvis"
     gitHubUrl = "https://github.com/vhs21/jarvis"
 
