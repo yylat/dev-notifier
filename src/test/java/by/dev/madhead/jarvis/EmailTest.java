@@ -1,6 +1,12 @@
 package by.dev.madhead.jarvis;
 
-import by.dev.madhead.jarvis.model.*;
+import by.dev.madhead.jarvis.model.Author;
+import by.dev.madhead.jarvis.model.Build;
+import by.dev.madhead.jarvis.model.BuildStatus;
+import by.dev.madhead.jarvis.model.Change;
+import by.dev.madhead.jarvis.model.Email;
+import by.dev.madhead.jarvis.model.Extra;
+import by.dev.madhead.jarvis.model.Repo;
 import hudson.tasks.Mailer;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -52,7 +58,7 @@ public class EmailTest {
         when(mailerDescriptor.getSmtpAuthUserName()).thenReturn(System.getenv("JARVIS_SMTP_USER"));
         when(mailerDescriptor.getSmtpAuthPassword()).thenReturn(System.getenv("JARVIS_SMTP_PASSWORD"));
 
-        jarvis = new Jarvis(Boolean.valueOf(System.getenv("JARVIS_SMTP_TLS")));
+        jarvis = new Jarvis();
     }
 
     @Test

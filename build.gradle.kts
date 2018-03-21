@@ -14,6 +14,7 @@ buildscript {
 
 plugins {
     kotlin("jvm") version ("1.1.51")
+    kotlin("kapt") version ("1.1.51")
 
     id("org.jenkins-ci.jpi") version ("0.22.0")
 }
@@ -38,6 +39,8 @@ val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowPluginVersion by project
 val jenkinsCoreVersion by project
 
+val sezpozVersion by project
+
 dependencies {
     compile(kotlin("stdlib-jre8", "$kotlinVersion"))
     compile("com.sun.mail:javax.mail:$javaxMailVersion")
@@ -59,6 +62,8 @@ dependencies {
     testCompile("org.powermock:powermock-api-mockito2:$powerMockVersion")
     testCompile("junit:junit:$junitVersion")
     testCompile("org.hamcrest:hamcrest-all:$hamcrestVersion")
+
+    kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
 }
 
 java {
