@@ -13,20 +13,10 @@
 			body {
 				margin: 0;
 				padding: 0;
-
 				font-family: arial, sans-serif;
 			}
-
-			table {
-				/*Debug borders*/
-				/*border: 1px black solid;*/
-			}
-
 			table.content {
 				width: 570px;
-
-				/*margin-bottom: 15px;*/
-
 				border-collapse: collapse;
 			}
 		</style>
@@ -111,11 +101,6 @@
 													   style="text-decoration: none; color: #57769d; font-size: 16px">
 														<pre th:text="${change.revision}" style="margin: 0">20339bc</pre>
 													</a>
-													<!--/*/
-													<pre th:if="${#strings.isEmpty(change.link)}"
-														 th:text="${change.revision}"
-														 style="text-decoration: none; color: #606060; font-size: 16px; margin: 0">20339bc</pre>
-													/*/-->
 												</td>
 												<td style="width: 10px" rowspan="2"></td>
 											</tr>
@@ -157,21 +142,9 @@
 									Need help? Mail <a
 										th:href="${email.extra.supportEmail}" href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
 								</p>
-								<!--/*-->
 								<p style="margin: 2px 0">
 									You look good today.
 								</p>
-								<!--*/-->
-								<!--/*/
-								<p th:if="${(email.build.status.name() == 'PASSED') or (email.build.status.name() == 'FIXED')}"
-								   th:text="${#messages.msg('exhortation.SUCCESS.' + randomSuccessExhortation)}"
-								   style="margin: 2px 0">
-								</p>
-								<p th:unless="${(email.build.status.name() == 'PASSED') or (email.build.status.name() == 'FIXED')}"
-								   th:text="${#messages.msg('exhortation.!SUCCESS.' + randomFailureExhortation)}"
-								   style="margin: 2px 0">
-								</p>
-								/*/-->
 							</td>
 							<td style="width: 10px"></td>
 						</tr>
