@@ -2,7 +2,7 @@ package by.dev.madhead.jarvis.pipeline
 
 import by.dev.madhead.jarvis.Jarvis
 import by.dev.madhead.jarvis.Messages
-import by.dev.madhead.jarvis.creator.EmailCreatorFactory
+import by.dev.madhead.jarvis.creator.EmailCreator
 import by.dev.madhead.jarvis.util.createDefaultAddressesSet
 import hudson.AbortException
 import hudson.FilePath
@@ -19,7 +19,7 @@ class JarvisStepExecution(
         val run = context.get(WorkflowRun::class.java) ?:
                 throw AbortException(Messages.jarvis_hudson_AbortException_workflowRunRequired())
         Jarvis().sendMail(
-                email = EmailCreatorFactory().getCreator(run,
+                email = EmailCreator(run,
                         context.get(TaskListener::class.java) ?:
                                 throw AbortException(Messages.jarvis_hudson_AbortException_taskListenerRequired()),
                         context.get(FilePath::class.java) ?:

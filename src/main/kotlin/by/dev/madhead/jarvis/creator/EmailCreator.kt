@@ -1,10 +1,12 @@
 package by.dev.madhead.jarvis.creator
 
 import by.dev.madhead.jarvis.model.*
+import by.dev.madhead.jarvis.model.Build
 import hudson.AbortException
 import hudson.EnvVars
-import hudson.model.Result
-import hudson.model.Run
+import hudson.FilePath
+import hudson.model.*
+import org.jenkinsci.plugins.workflow.job.WorkflowRun
 import java.time.Duration
 
 interface EmailCreator {
@@ -42,30 +44,30 @@ interface EmailCreator {
             gitUrl.substring(0, gitUrl.lastIndexOf(suffix)) else gitUrl
     }
 
-}
+    fun defineBuildStatus(run: Run<*, *>): BuildStatus {
+        val currentResult = run.getResult()
+        val previousResult = run.getPreviousBuild()?.getResult()
 
-fun defineBuildStatus(run: Run<*, *>): BuildStatus {
-    val currentResult = run.getResult()
-    val previousResult = run.getPreviousBuild()?.getResult()
-
-    return when (currentResult) {
-        Result.SUCCESS ->
-            when (previousResult) {
-                null, Result.SUCCESS -> BuildStatus.PASSED
-                else -> BuildStatus.FIXED
-            }
-        Result.UNSTABLE, Result.NOT_BUILT ->
-            when (previousResult) {
-                null, Result.SUCCESS -> BuildStatus.BROKEN
-                Result.UNSTABLE, Result.NOT_BUILT -> BuildStatus.STILL_BROKEN
-                else -> BuildStatus.UNKNOWN
-            }
-        Result.FAILURE ->
-            when (previousResult) {
-                Result.FAILURE -> BuildStatus.STILL_FAILING
-                else -> BuildStatus.FAILED
-            }
-        Result.ABORTED -> BuildStatus.ABORTED
-        else -> BuildStatus.UNKNOWN
+        return when (currentResult) {
+            Result.SUCCESS ->
+                when (previousResult) {
+                    null, Result.SUCCESS -> BuildStatus.PASSED
+                    else -> BuildStatus.FIXED
+                }
+            Result.UNSTABLE, Result.NOT_BUILT ->
+                when (previousResult) {
+                    null, Result.SUCCESS -> BuildStatus.BROKEN
+                    Result.UNSTABLE, Result.NOT_BUILT -> BuildStatus.STILL_BROKEN
+                    else -> BuildStatus.UNKNOWN
+                }
+            Result.FAILURE ->
+                when (previousResult) {
+                    Result.FAILURE -> BuildStatus.STILL_FAILING
+                    else -> BuildStatus.FAILED
+                }
+            Result.ABORTED -> BuildStatus.ABORTED
+            else -> BuildStatus.UNKNOWN
+        }
     }
+
 }

@@ -2,7 +2,7 @@ package by.dev.madhead.jarvis.classic
 
 import by.dev.madhead.jarvis.Jarvis
 import by.dev.madhead.jarvis.Messages
-import by.dev.madhead.jarvis.creator.EmailCreatorFactory
+import by.dev.madhead.jarvis.creator.EmailCreator
 import by.dev.madhead.jarvis.util.createDefaultAddressesSet
 import by.dev.madhead.jarvis.util.isValidAddresses
 import hudson.Extension
@@ -23,7 +23,7 @@ constructor(val defaultRecipients: String?) : Notifier() {
 
     override fun perform(build: AbstractBuild<*, *>, launcher: Launcher, listener: BuildListener): Boolean {
         Jarvis().sendMail(
-                email = EmailCreatorFactory().getCreator(build, listener).create(),
+                email = EmailCreator(build, listener).create(),
                 defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients))
         return true
     }
