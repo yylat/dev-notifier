@@ -7,7 +7,10 @@ import hudson.AbortException
 import hudson.model.AbstractBuild
 import hudson.model.BuildListener
 
-class ClassicEmailCreator(private val run: AbstractBuild<*, *>, private val listener: BuildListener) : EmailCreator {
+class ClassicEmailCreator(
+        private val run: AbstractBuild<*, *>,
+        private val listener: BuildListener) : EmailCreator {
+
     override fun create(): Email {
         if (run.getParent().getScm() != null) {
             val envVars = run.getEnvironment(listener)
@@ -21,4 +24,5 @@ class ClassicEmailCreator(private val run: AbstractBuild<*, *>, private val list
             )
         } else throw AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM())
     }
+
 }

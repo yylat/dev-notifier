@@ -16,7 +16,7 @@ class RecipientParser {
     private val recipientSplitPattern = "[;, ]"
 
     fun createDefaultAddressesSet(run: Run<*, *>, recipients: String?): AddressSet {
-        val defaultAddresses: AddressSet = HashSet()
+        val defaultAddresses = mutableSetOf<Address>()
 
         AddressSearcher().findBuilderAddress(run)?.let { addStringAsAddress(defaultAddresses, it) }
 
@@ -40,12 +40,12 @@ class RecipientParser {
         return true
     }
 
-    fun addStringAsAddress(addresses: AddressSet, address: String) {
+    fun addStringAsAddress(addresses: MutableSet<Address>, address: String) {
         if (isValidAddress(address)) {
             try {
-                addresses.plus(InternetAddress(address))
-            } catch (addressException: AddressException) {
-                logger.log(Level.WARN, "Error while parsing email address: [$address].", addressException)
+                addresses.add(InternetAddress(address))
+            } catch (e: AddressException) {
+                logger.log(Level.WARN, "Error while parsing email address: [$address].", e)
             }
         }
     }

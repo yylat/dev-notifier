@@ -11,10 +11,12 @@ import org.eclipse.jgit.revwalk.RevWalk
 import java.io.File
 import java.io.IOException
 
-class ChangeCreator(private val gitUrl: String, workspace: FilePath) {
+class ChangeCreator(
+        private val gitUrl: String,
+        workspace: FilePath) {
 
-    private val repository = RepositoryBuilder().setGitDir(
-            File(workspace.remote + "/.git")).build()
+    private val repository = RepositoryBuilder()
+            .setGitDir(File(workspace.remote + "/.git")).build()
 
     fun create(changeLogEntry: ChangeLogSet.Entry): Change {
         return Change(

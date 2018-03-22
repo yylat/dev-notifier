@@ -34,13 +34,13 @@ class ContentMaker {
         }
         return MimeMultipart().apply {
             addBodyPart(MimeBodyPart().apply {
-                setContent(engine.process("jarvis", context), "text/html: charset=utf-8")
+                setContent(engine.process("jarvis", context), "text/html; charset=utf-8")
             })
             addBodyPart(buildBodyPart("<status.png>", "Build status",
                     "${pathToImages}status-${image(email.build.status)}.png", imagePng))
             addBodyPart(buildBodyPart("<duration.png>", "Duration",
                     "${pathToImages}duration-${image(email.build.status)}.png", imagePng))
-            addBodyPart(buildBodyPart("<jenkins.png>", "Jenkins", "${pathToImages}jenkins-${
+            addBodyPart(buildBodyPart("<jenkins.png>", "Jenkins", "${pathToImages}jenkins${
             if ((email.build.status == BuildStatus.PASSED) || (email.build.status == BuildStatus.FIXED)) ""
             else "-in-fire"}.png", imagePng))
         }

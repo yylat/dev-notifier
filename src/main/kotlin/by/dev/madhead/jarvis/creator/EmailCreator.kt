@@ -5,6 +5,7 @@ import by.dev.madhead.jarvis.model.*
 import hudson.AbortException
 import hudson.EnvVars
 import hudson.model.Run
+import hudson.model.TaskListener
 import java.time.Duration
 
 interface EmailCreator {

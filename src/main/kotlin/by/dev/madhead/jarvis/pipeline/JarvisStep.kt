@@ -15,7 +15,7 @@ import org.kohsuke.stapler.DataBoundConstructor
 
 class JarvisStep
 @DataBoundConstructor
-constructor(private val defaultRecipients: String) : Step() {
+constructor(val defaultRecipients: String?) : Step() {
 
     override fun start(context: StepContext): StepExecution {
         if (RecipientParser().isValidAddresses(defaultRecipients))
@@ -28,8 +28,10 @@ constructor(private val defaultRecipients: String) : Step() {
     class JarvisStepDescriptor : StepDescriptor() {
         override fun getFunctionName(): String = Messages.jarvis_functionName()
 
-        override fun getRequiredContext() =
-                setOf(WorkflowRun::class.java, TaskListener::class.java, FilePath::class.java)
+        override fun getRequiredContext() = setOf(
+                WorkflowRun::class.java,
+                TaskListener::class.java,
+                FilePath::class.java)
     }
 
 }

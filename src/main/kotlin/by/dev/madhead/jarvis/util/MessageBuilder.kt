@@ -8,22 +8,26 @@ import javax.mail.Session
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-class MessageBuilder(val email: Email, val addresses: Set<Address>) {
+class MessageBuilder(
+        private val email: Email,
+        defaultRecipientsAddresses: Set<Address>) {
+
+    private val allRecipientAddresses = mutableSetOf<Address>()
 
     init {
+        allRecipientAddresses.addAll(defaultRecipientsAddresses)
         val recipientParser = RecipientParser()
-        email.build.changeSet
-                .mapNotNull { it.author.email }
-                .forEach { recipientParser.addStringAsAddress(addresses, it) }
+        email.build.changeSet.mapNotNull { it.author.email }
+                .forEach { recipientParser.addStringAsAddress(allRecipientAddresses, it) }
     }
 
-    fun isMsgHasRecipients() = addresses.isNotEmpty()
+    fun isMsgHasRecipients() = allRecipientAddresses.isNotEmpty()
 
     fun buildMessage(session: Session): MimeMessage {
         return MimeMessage(session).apply {
             subject = email.subject
             setFrom(InternetAddress(Messages.jarvis_fromName()))
-            setRecipients(Message.RecipientType.TO, addresses.toTypedArray())
+            setRecipients(Message.RecipientType.TO, allRecipientAddresses.toTypedArray())
             setContent(ContentMaker().buildContent(email))
         }
     }

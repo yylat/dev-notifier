@@ -1,4 +1,7 @@
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
+import org.jetbrains.kotlin.gradle.internal.KaptTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.junit.platform.gradle.plugin.JUnitPlatformExtension
 import org.junit.platform.gradle.plugin.JUnitPlatformPlugin
 
@@ -70,6 +73,10 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 jenkinsPlugin {
     displayName = "Jarvis"
     shortName = "jarvis"
@@ -95,6 +102,22 @@ jenkinsPlugin {
             setProperty("timezone", "UTC+3")
         })
     }
+}
+
+tasks.withType(KotlinCompile::class.java).all {
+    dependsOn("localizer")
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+tasks.withType(KaptTask::class.java).all {
+    outputs.upToDateWhen { false }
+}
+
+tasks.withType(KaptGenerateStubsTask::class.java).all {
+    outputs.upToDateWhen { false }
 }
 
 task<Wrapper>("wrapper") {

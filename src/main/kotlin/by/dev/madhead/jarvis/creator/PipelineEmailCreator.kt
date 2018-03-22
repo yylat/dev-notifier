@@ -9,7 +9,10 @@ import hudson.model.Result
 import hudson.model.TaskListener
 import org.jenkinsci.plugins.workflow.job.WorkflowRun
 
-class PipelineEmailCreator(val run: WorkflowRun, val listener: TaskListener, val workspace: FilePath) : EmailCreator {
+class PipelineEmailCreator(
+        private val run: WorkflowRun,
+        private val listener: TaskListener,
+        private val workspace: FilePath) : EmailCreator {
 
     override fun create(): Email {
         val scm = run.parent.typicalSCM
@@ -20,6 +23,7 @@ class PipelineEmailCreator(val run: WorkflowRun, val listener: TaskListener, val
             run.setResult(run.result ?: Result.SUCCESS)
             return create(run, gitUrl, envVars, ChangesFiller().fillChangesList(gitUrl, workspace, run.changeSets))
         } else throw AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM())
+
     }
 
 }
