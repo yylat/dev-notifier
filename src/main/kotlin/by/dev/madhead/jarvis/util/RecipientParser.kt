@@ -33,7 +33,7 @@ class RecipientParser {
 
     fun isValidAddresses(recipients: String?): Boolean {
         recipients?.let {
-            recipients.split(recipientSplitPattern).forEach {
+            recipients.split(Regex(recipientSplitPattern)).forEach {
                 if (!isValidAddress(it)) return false
             }
         }
