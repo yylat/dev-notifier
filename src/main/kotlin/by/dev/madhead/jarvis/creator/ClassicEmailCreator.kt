@@ -2,7 +2,6 @@ package by.dev.madhead.jarvis.creator
 
 import by.dev.madhead.jarvis.Messages
 import by.dev.madhead.jarvis.model.Email
-import by.dev.madhead.jarvis.util.ChangesFiller
 import hudson.AbortException
 import hudson.model.AbstractBuild
 import hudson.model.BuildListener
@@ -16,7 +15,7 @@ class ClassicEmailCreator(
             val envVars = run.getEnvironment(listener)
             val gitUrl = findGitUrl(envVars)
             return create(run, gitUrl, envVars,
-                    ChangesFiller().fillChangesList(gitUrl,
+                    fillChangesList(gitUrl,
                             run.getWorkspace() ?:
                                     throw AbortException(Messages.jarvis_hudson_AbortException_workspaceRequired()),
                             run.getChangeSets()

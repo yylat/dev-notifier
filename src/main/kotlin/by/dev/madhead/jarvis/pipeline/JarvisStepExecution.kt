@@ -3,7 +3,7 @@ package by.dev.madhead.jarvis.pipeline
 import by.dev.madhead.jarvis.Jarvis
 import by.dev.madhead.jarvis.Messages
 import by.dev.madhead.jarvis.creator.EmailCreatorFactory
-import by.dev.madhead.jarvis.util.RecipientParser
+import by.dev.madhead.jarvis.util.createDefaultAddressesSet
 import hudson.AbortException
 import hudson.FilePath
 import hudson.model.TaskListener
@@ -25,7 +25,7 @@ class JarvisStepExecution(
                         context.get(FilePath::class.java) ?:
                                 throw AbortException(Messages.jarvis_hudson_AbortException_workspaceRequired())
                 ).create(),
-                defaultRecipientsAddresses = RecipientParser().createDefaultAddressesSet(run, defaultRecipients))
+                defaultRecipientsAddresses = createDefaultAddressesSet(run, defaultRecipients))
         return null
     }
 

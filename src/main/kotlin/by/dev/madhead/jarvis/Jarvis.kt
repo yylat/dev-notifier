@@ -47,8 +47,7 @@ class Jarvis {
             } catch (e: IOException) {
                 handleException(e)
             }
-        } else
-            logger.log(Level.INFO, "No recipients to send email.")
+        } else logger.log(Level.INFO, "No recipients to send email.")
     }
 
     private fun handleException(e: Exception) {

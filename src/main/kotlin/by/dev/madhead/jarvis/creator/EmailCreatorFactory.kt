@@ -8,12 +8,10 @@ import org.jenkinsci.plugins.workflow.job.WorkflowRun
 
 class EmailCreatorFactory {
 
-    fun getCreator(run: AbstractBuild<*, *>, listener: BuildListener): EmailCreator {
-        return ClassicEmailCreator(run, listener)
-    }
+    fun getCreator(run: AbstractBuild<*, *>, listener: BuildListener)
+            : EmailCreator = ClassicEmailCreator(run, listener)
 
-    fun getCreator(run: WorkflowRun, listener: TaskListener, workspace: FilePath): EmailCreator {
-        return PipelineEmailCreator(run, listener, workspace)
-    }
+    fun getCreator(run: WorkflowRun, listener: TaskListener, workspace: FilePath)
+            : EmailCreator = PipelineEmailCreator(run, listener, workspace)
 
 }

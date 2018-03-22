@@ -1,7 +1,7 @@
 package by.dev.madhead.jarvis.pipeline
 
 import by.dev.madhead.jarvis.Messages
-import by.dev.madhead.jarvis.util.RecipientParser
+import by.dev.madhead.jarvis.util.isValidAddresses
 import hudson.AbortException
 import hudson.Extension
 import hudson.FilePath
@@ -18,7 +18,7 @@ class JarvisStep
 constructor(val defaultRecipients: String?) : Step() {
 
     override fun start(context: StepContext): StepExecution {
-        if (RecipientParser().isValidAddresses(defaultRecipients))
+        if (isValidAddresses(defaultRecipients))
             return JarvisStepExecution(context, defaultRecipients)
         else
             throw AbortException(Messages.jarvis_validation_email())

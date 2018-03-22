@@ -1,11 +1,10 @@
 package by.dev.madhead.jarvis.creator
 
-import by.dev.madhead.jarvis.util.BuildStatusQualifier
 import by.dev.madhead.jarvis.model.*
 import hudson.AbortException
 import hudson.EnvVars
+import hudson.model.Result
 import hudson.model.Run
-import hudson.model.TaskListener
 import java.time.Duration
 
 interface EmailCreator {
@@ -23,7 +22,7 @@ interface EmailCreator {
                         branch = envVars.get("GIT_BRANCH")?.substring(envVars.get("GIT_BRANCH")!!.lastIndexOf("/") + 1),
                         revision = envVars.get("GIT_COMMIT")?.substring(0, 7) ?:
                                 throw AbortException("Can not find git repository commits info."),
-                        status = BuildStatusQualifier().defineBuildStatus(run),
+                        status = defineBuildStatus(run),
                         duration = if (run.getDuration() > 0)
                             Duration.ofMillis(run.getDuration()) else
                             Duration.ofMillis(System.currentTimeMillis() - run.getTimeInMillis()),
@@ -43,4 +42,30 @@ interface EmailCreator {
             gitUrl.substring(0, gitUrl.lastIndexOf(suffix)) else gitUrl
     }
 
+}
+
+fun defineBuildStatus(run: Run<*, *>): BuildStatus {
+    val currentResult = run.getResult()
+    val previousResult = run.getPreviousBuild()?.getResult()
+
+    return when (currentResult) {
+        Result.SUCCESS ->
+            when (previousResult) {
+                null, Result.SUCCESS -> BuildStatus.PASSED
+                else -> BuildStatus.FIXED
+            }
+        Result.UNSTABLE, Result.NOT_BUILT ->
+            when (previousResult) {
+                null, Result.SUCCESS -> BuildStatus.BROKEN
+                Result.UNSTABLE, Result.NOT_BUILT -> BuildStatus.STILL_BROKEN
+                else -> BuildStatus.UNKNOWN
+            }
+        Result.FAILURE ->
+            when (previousResult) {
+                Result.FAILURE -> BuildStatus.STILL_FAILING
+                else -> BuildStatus.FAILED
+            }
+        Result.ABORTED -> BuildStatus.ABORTED
+        else -> BuildStatus.UNKNOWN
+    }
 }

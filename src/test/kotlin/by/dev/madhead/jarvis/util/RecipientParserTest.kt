@@ -14,8 +14,6 @@ class RecipientParserTest(
         private val defaultRecipients: String,
         private val isValidDefaultRecipientsAddresses: Boolean) {
 
-    private val recipientParser = RecipientParser()
-
     companion object {
         @JvmStatic
         @Parameterized.Parameters
@@ -33,18 +31,18 @@ class RecipientParserTest(
 
     @Test
     fun isValidAddress() {
-        assertThat(recipientParser.isValidAddress(builderAddress), `is`(isValidBuilderAddress))
+        assertThat(isValidAddress(builderAddress), `is`(isValidBuilderAddress))
     }
 
     @Test
     fun isValidAddresses() {
-        assertThat(recipientParser.isValidAddresses(defaultRecipients), `is`(isValidDefaultRecipientsAddresses))
+        assertThat(isValidAddresses(defaultRecipients), `is`(isValidDefaultRecipientsAddresses))
     }
 
     @Test
     fun addStringAsAddress() {
         val addressesSet = mutableSetOf<Address>()
-        recipientParser.addStringAsAddress(addressesSet, builderAddress)
+        addStringAsAddress(addressesSet, builderAddress)
         if (isValidBuilderAddress) assertThat(addressesSet, hasSize(1))
         else assertThat(addressesSet, empty())
     }

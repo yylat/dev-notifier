@@ -2,7 +2,6 @@ package by.dev.madhead.jarvis.creator
 
 import by.dev.madhead.jarvis.Messages
 import by.dev.madhead.jarvis.model.Email
-import by.dev.madhead.jarvis.util.ChangesFiller
 import hudson.AbortException
 import hudson.FilePath
 import hudson.model.Result
@@ -21,7 +20,7 @@ class PipelineEmailCreator(
             scm.buildEnvironment(run, envVars)
             val gitUrl = findGitUrl(envVars)
             run.setResult(run.result ?: Result.SUCCESS)
-            return create(run, gitUrl, envVars, ChangesFiller().fillChangesList(gitUrl, workspace, run.changeSets))
+            return create(run, gitUrl, envVars, fillChangesList(gitUrl, workspace, run.changeSets))
         } else throw AbortException(Messages.jarvis_hudson_AbortException_jobWithoutSCM())
 
     }

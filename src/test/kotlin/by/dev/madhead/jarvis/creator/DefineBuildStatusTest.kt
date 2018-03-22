@@ -1,4 +1,4 @@
-package by.dev.madhead.jarvis.util
+package by.dev.madhead.jarvis.creator
 
 import by.dev.madhead.jarvis.model.BuildStatus
 import hudson.model.Result
@@ -8,19 +8,16 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito
 
 @RunWith(Parameterized::class)
-class BuildStatusQualifierTest(
+class DefineBuildStatusTest(
         private val currentResult: Result,
         private val previousResult: Result?,
         private val buildStatus: BuildStatus) {
 
-    private val run = mock(Run::class.java)
-    private val previousRun = mock(Run::class.java)
-
-    private val buildStatusQualifier = BuildStatusQualifier()
+    private val run = Mockito.mock(Run::class.java)
+    private val previousRun = Mockito.mock(Run::class.java)
 
     companion object {
         @JvmStatic
@@ -49,14 +46,14 @@ class BuildStatusQualifierTest(
 
     @Before
     fun setUp() {
-        `when`(run.getResult()).thenReturn(currentResult)
-        `when`(run.getPreviousBuild()).thenReturn(previousRun)
-        `when`(previousRun.getResult()).thenReturn(previousResult)
+        Mockito.`when`(run.getResult()).thenReturn(currentResult)
+        Mockito.`when`(run.getPreviousBuild()).thenReturn(previousRun)
+        Mockito.`when`(previousRun.getResult()).thenReturn(previousResult)
     }
 
     @Test
     fun defineBuildResult() {
-        Assert.assertEquals(buildStatus, buildStatusQualifier.defineBuildStatus(run))
+        Assert.assertEquals(buildStatus, defineBuildStatus(run))
     }
 
 }

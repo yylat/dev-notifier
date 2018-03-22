@@ -2,7 +2,9 @@ package by.dev.madhead.jarvis.creator
 
 import by.dev.madhead.jarvis.model.Author
 import by.dev.madhead.jarvis.model.Change
-import by.dev.madhead.jarvis.util.AddressSearcher
+import by.dev.madhead.jarvis.model.ChangeSet
+import by.dev.madhead.jarvis.util.findJenkinsUserAddressById
+import hudson.AbortException
 import hudson.FilePath
 import hudson.scm.ChangeLogSet
 import org.eclipse.jgit.lib.ObjectId
@@ -11,6 +13,22 @@ import org.eclipse.jgit.revwalk.RevWalk
 import java.io.File
 import java.io.IOException
 
+fun fillChangesList(gitUrl: String, workspace: FilePath,
+                    changeLogSets: List<ChangeLogSet<out ChangeLogSet.Entry>>): ChangeSet {
+    val changes = mutableListOf<Change>()
+    try {
+        val changeCreator = ChangeCreator(gitUrl, workspace)
+        changeLogSets.forEach { changeLogSet ->
+            changeLogSet.forEach { changeLogEntry ->
+                changes.add(changeCreator.create(changeLogEntry))
+            }
+        }
+    } catch (e: IOException) {
+        throw AbortException(e.message)
+    }
+    return changes
+}
+
 class ChangeCreator(
         private val gitUrl: String,
         workspace: FilePath) {
@@ -18,16 +36,16 @@ class ChangeCreator(
     private val repository = RepositoryBuilder()
             .setGitDir(File(workspace.remote + "/.git")).build()
 
-    fun create(changeLogEntry: ChangeLogSet.Entry): Change {
-        return Change(
-                revision = changeLogEntry.commitId.substring(0, 7),
-                author = findAuthor(changeLogEntry.commitId) ?: Author(
-                        changeLogEntry.author.id,
-                        AddressSearcher().findById(changeLogEntry.author.id)),
-                message = changeLogEntry.msg,
-                link = "$gitUrl/commit/${changeLogEntry.commitId}"
-        )
-    }
+    fun create(changeLogEntry: ChangeLogSet.Entry) =
+            Change(
+                    revision = changeLogEntry.commitId.substring(0, 7),
+                    author = findAuthor(changeLogEntry.commitId) ?: Author(
+                            changeLogEntry.author.id,
+                            findJenkinsUserAddressById(changeLogEntry.author.id)),
+                    message = changeLogEntry.msg,
+                    link = "$gitUrl/commit/${changeLogEntry.commitId}"
+            )
+
 
     private fun findAuthor(commitId: String): Author? {
         try {
