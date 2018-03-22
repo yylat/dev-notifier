@@ -13,6 +13,7 @@ class RecipientParser {
 
     private val logger = LogManager.getLogger()
 
+    private val addressPattern = Regex("([a-zA-Z0-9]+[-_.]?)+@[a-z0-9]+\\.[a-z]+$")
     private val recipientSplitPattern = "[;, ]"
 
     fun createDefaultAddressesSet(run: Run<*, *>, recipients: String?): AddressSet {
@@ -28,11 +29,11 @@ class RecipientParser {
     }
 
     fun isValidAddress(address: String): Boolean {
-        return address.matches(Regex("([a-zA-Z0-9]+[-_.]?)+@[a-z0-9]+\\.[a-z]+$"))
+        return address.matches(addressPattern)
     }
 
     fun isValidAddresses(recipients: String?): Boolean {
-        recipients?.let {
+        if (recipients != null && recipients.isNotBlank()) {
             recipients.split(Regex(recipientSplitPattern)).forEach {
                 if (!isValidAddress(it)) return false
             }
