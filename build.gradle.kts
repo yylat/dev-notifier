@@ -1,4 +1,5 @@
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
+import org.jenkinsci.gradle.plugins.jpi.JpiLicense
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -100,6 +101,12 @@ jenkinsPlugin {
             setProperty("name", "Uladzislau Shamionak")
             setProperty("email", "uladzislau.shamionak@gmail.com")
             setProperty("timezone", "UTC+3")
+        })
+    }
+
+    licenses = this.Licenses().apply {
+        license(delegateClosureOf<JpiLicense> {
+            setProperty("url", "http://www.apache.org/licenses/LICENSE-2.0")
         })
     }
 }
