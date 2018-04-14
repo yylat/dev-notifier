@@ -11,6 +11,7 @@ import hudson.model.AbstractBuild
 import hudson.model.AbstractProject
 import hudson.model.BuildListener
 import hudson.tasks.BuildStepDescriptor
+import hudson.tasks.BuildStepMonitor
 import hudson.tasks.Notifier
 import hudson.tasks.Publisher
 import hudson.util.FormValidation
@@ -27,6 +28,8 @@ constructor(val defaultRecipients: String?) : Notifier() {
                 defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients))
         return true
     }
+
+    override fun getRequiredMonitorService() = BuildStepMonitor.BUILD
 
     @Extension
     class JarvisStepDescriptor : BuildStepDescriptor<Publisher>() {

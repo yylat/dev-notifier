@@ -6,10 +6,7 @@ import hudson.model.User
 import hudson.tasks.Mailer
 
 fun findJenkinsUserAddressById(userId: String?) =
-        if (userId != null)
-            User.getOrCreateByIdOrFullName(userId)
-                    .getProperty(Mailer.UserProperty::class.java)
-                    .address
+        if (userId != null) User.get(userId).getProperty(Mailer.UserProperty::class.java).address
         else null
 
 fun findJenkinsBuilderAddress(run: Run<*, *>) =

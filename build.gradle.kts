@@ -3,28 +3,20 @@ import org.jenkinsci.gradle.plugins.jpi.JpiLicense
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.junit.platform.gradle.plugin.JUnitPlatformExtension
-import org.junit.platform.gradle.plugin.JUnitPlatformPlugin
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.1")
-    }
-}
 
 plugins {
-    kotlin("jvm") version ("1.1.51")
-    kotlin("kapt") version ("1.1.51")
+    kotlin("jvm") version ("1.2.31")
+    kotlin("kapt") version ("1.2.31")
 
-    id("org.jenkins-ci.jpi") version ("0.22.0")
+    id("org.jenkins-ci.jpi") version ("0.25.0")
 }
-apply<JUnitPlatformPlugin>()
+
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform()
+}
 
 repositories {
+    maven("http://repo.jenkins-ci.org/public")
     jcenter()
 }
 
@@ -33,8 +25,7 @@ val thymeleafVersion by project
 val javaxMailVersion by project
 val javaxServletVersion by project
 val jGitVersion by project
-val junitVersion by project
-val powerMockVersion by project
+val jupiterVersion by project
 val hamcrestVersion by project
 val log4jVersion by project
 
@@ -46,15 +37,13 @@ val jenkinsCoreVersion by project
 val sezpozVersion by project
 
 dependencies {
-    compile(kotlin("stdlib-jre8", "$kotlinVersion"))
-    compile("com.sun.mail:javax.mail:$javaxMailVersion")
-    compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
-    compile("org.jenkins-ci.main:jenkins-core:$jenkinsCoreVersion")
-    compile("javax.servlet:javax.servlet-api:$javaxServletVersion")
-    compile("org.eclipse.jgit:org.eclipse.jgit:$jGitVersion")
+    implementation(kotlin("stdlib-jre8", "$kotlinVersion"))
+    implementation("com.sun.mail:javax.mail:$javaxMailVersion")
+    implementation("org.thymeleaf:thymeleaf:$thymeleafVersion")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:$jGitVersion")
 
-    compile("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    compile("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
 
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-api:$jenkinsWorkflowPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-job:$jenkinsWorkflowPluginVersion@jar")
@@ -62,10 +51,10 @@ dependencies {
     jenkinsPlugins("org.jenkins-ci.plugins:credentials:$jenkinsCredentialsPluginVersion@jar")
     jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:$jenkinsWorkflowPluginVersion@jar")
 
-    testCompile("org.powermock:powermock-module-junit4:$powerMockVersion")
-    testCompile("org.powermock:powermock-api-mockito2:$powerMockVersion")
-    testCompile("junit:junit:$junitVersion")
-    testCompile("org.hamcrest:hamcrest-all:$hamcrestVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${jupiterVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${jupiterVersion}")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}")
 
     kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
 }
@@ -128,6 +117,6 @@ tasks.withType(KaptGenerateStubsTask::class.java).all {
 }
 
 task<Wrapper>("wrapper") {
-    gradleVersion = "4.3"
+    gradleVersion = "4.6"
     distributionType = Wrapper.DistributionType.ALL
 }

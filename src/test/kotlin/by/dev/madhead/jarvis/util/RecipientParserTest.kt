@@ -1,50 +1,58 @@
 package by.dev.madhead.jarvis.util
 
-import org.hamcrest.Matchers.*
-import org.junit.Assert.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import javax.mail.Address
 
 @RunWith(Parameterized::class)
-class RecipientParserTest(
-        private val builderAddress: String,
-        private val isValidBuilderAddress: Boolean,
-        private val defaultRecipients: String,
-        private val isValidDefaultRecipientsAddresses: Boolean) {
+class RecipientParserTest {
+
+    @ParameterizedTest
+    @MethodSource("builderAddressSource")
+    fun isValidAddress(builderAddress: String, isValidBuilderAddress: Boolean) {
+        Assertions.assertEquals(isValidBuilderAddress, isValidAddress(builderAddress))
+    }
+
+    @ParameterizedTest
+    @MethodSource("addressesSource")
+    fun isValidAddresses(defaultRecipients: String, isValidDefaultRecipientsAddresses: Boolean) {
+        Assertions.assertEquals(isValidDefaultRecipientsAddresses, isValidAddresses(defaultRecipients))
+    }
+
+    @ParameterizedTest
+    @MethodSource("builderAddressSource")
+    fun addStringAsAddress(builderAddress: String, isValidBuilderAddress: Boolean) {
+        val addressesSet = mutableSetOf<Address>()
+        addStringAsAddress(addressesSet, builderAddress)
+        if (isValidBuilderAddress) Assertions.assertEquals(1, addressesSet.size)
+        else Assertions.assertEquals(0, addressesSet.size)
+    }
 
     companion object {
         @JvmStatic
-        @Parameterized.Parameters
-        fun data() = listOf(
-                arrayOf("address@email.com", true, "first@email.com,second@email.com,third@email.com", true),
-                arrayOf("address@email.org", true, "first@email.com;second@email.com;third@email.com", true),
-                arrayOf("address@email.by", true, "first@email.com second@email.com third@email.com", true),
-                arrayOf("address", false, "first@email.com secondemail.com third@email.com", false),
-                arrayOf("@gmail", false, "first@email.com second@email.com third@.com", false),
-                arrayOf("email.com", false, "first second@email.com third@email.com", false),
-                arrayOf("@", false, "", true),
-                arrayOf("..", false, "    ", true)
+        fun builderAddressSource() = listOf(
+                arrayOf("address@email.com", true),
+                arrayOf("address@email.by", true),
+                arrayOf("address", false),
+                arrayOf("@gmail", false),
+                arrayOf("email.com", false),
+                arrayOf("@", false)
         )
-    }
 
-    @Test
-    fun isValidAddress() {
-        assertThat(isValidAddress(builderAddress), `is`(isValidBuilderAddress))
-    }
-
-    @Test
-    fun isValidAddresses() {
-        assertThat(isValidAddresses(defaultRecipients), `is`(isValidDefaultRecipientsAddresses))
-    }
-
-    @Test
-    fun addStringAsAddress() {
-        val addressesSet = mutableSetOf<Address>()
-        addStringAsAddress(addressesSet, builderAddress)
-        if (isValidBuilderAddress) assertThat(addressesSet, hasSize(1))
-        else assertThat(addressesSet, empty())
+        @JvmStatic
+        fun addressesSource() = listOf(
+                arrayOf("first@email.com,second@email.com,third@email.com", true),
+                arrayOf("first@email.com;second@email.com;third@email.com", true),
+                arrayOf("first@email.com second@email.com third@email.com", true),
+                arrayOf("first@email.com secondemail.com third@email.com", false),
+                arrayOf("first@email.com second@email.com third@.com", false),
+                arrayOf("first second@email.com third@email.com", false),
+                arrayOf("", true),
+                arrayOf("    ", true)
+        )
     }
 
 }
