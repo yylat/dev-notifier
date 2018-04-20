@@ -5,6 +5,7 @@ import by.dev.madhead.jarvis.Messages
 import by.dev.madhead.jarvis.creator.EmailCreator
 import by.dev.madhead.jarvis.util.createDefaultAddressesSet
 import by.dev.madhead.jarvis.util.isValidAddresses
+import hudson.AbortException
 import hudson.Extension
 import hudson.Launcher
 import hudson.model.AbstractBuild
@@ -23,10 +24,14 @@ class JarvisStep
 constructor(val defaultRecipients: String?) : Notifier() {
 
     override fun perform(build: AbstractBuild<*, *>, launcher: Launcher, listener: BuildListener): Boolean {
-        Jarvis().sendMail(
-                email = EmailCreator(build, listener).create(),
-                defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients))
-        return true
+        try {
+            Jarvis().sendMail(
+                    email = EmailCreator(build, listener).create(),
+                    defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients))
+            return true
+        } catch (exception: Throwable) {
+            throw AbortException(exception.message)
+        }
     }
 
     override fun getRequiredMonitorService() = BuildStepMonitor.BUILD

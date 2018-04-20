@@ -16,17 +16,21 @@ class JarvisStepExecution(
         val defaultRecipients: String?) : SynchronousNonBlockingStepExecution<Void>(context) {
 
     override fun run(): Void? {
-        val run = context.get(WorkflowRun::class.java) ?:
-                throw AbortException(Messages.jarvis_hudson_AbortException_workflowRunRequired())
-        Jarvis().sendMail(
-                email = EmailCreator(run,
-                        context.get(TaskListener::class.java) ?:
-                                throw AbortException(Messages.jarvis_hudson_AbortException_taskListenerRequired()),
-                        context.get(FilePath::class.java) ?:
-                                throw AbortException(Messages.jarvis_hudson_AbortException_workspaceRequired())
-                ).create(),
-                defaultRecipientsAddresses = createDefaultAddressesSet(run, defaultRecipients))
-        return null
+        val run = context.get(WorkflowRun::class.java)
+                ?: throw AbortException(Messages.jarvis_hudson_AbortException_workflowRunRequired())
+        try {
+            Jarvis().sendMail(
+                    email = EmailCreator(run,
+                            context.get(TaskListener::class.java)
+                                    ?: throw AbortException(Messages.jarvis_hudson_AbortException_taskListenerRequired()),
+                            context.get(FilePath::class.java)
+                                    ?: throw AbortException(Messages.jarvis_hudson_AbortException_workspaceRequired())
+                    ).create(),
+                    defaultRecipientsAddresses = createDefaultAddressesSet(run, defaultRecipients))
+            return null
+        } catch (exception: Throwable) {
+            throw AbortException(exception.message)
+        }
     }
 
 }
