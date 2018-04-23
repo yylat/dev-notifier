@@ -32,6 +32,8 @@ class MessageBuilder(
 
     fun isMsgHasRecipients() = allRecipientAddresses.isNotEmpty()
 
+    fun recipientsInfo() = allRecipientAddresses.joinToString(", ")
+
     fun buildMessage(session: Session): MimeMessage {
         return MimeMessage(session).apply {
             subject = email.subject

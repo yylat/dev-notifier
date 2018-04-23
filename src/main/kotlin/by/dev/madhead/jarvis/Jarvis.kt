@@ -6,14 +6,12 @@ import hudson.AbortException
 import hudson.tasks.Mailer
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 import java.io.IOException
+import java.io.PrintStream
 import java.util.*
 import javax.mail.*
 
 class Jarvis {
-
-    private val logger: Logger = LogManager.getLogger()
 
     private val session = fun(): Session {
         val mailerDescriptor = Mailer.descriptor()
@@ -33,25 +31,31 @@ class Jarvis {
                             )
                         }
                     }
-                } else null
+                } else {
+                    null
+                }
         )
     }()
 
-    fun sendMail(email: Email, defaultRecipientsAddresses: Set<Address>) {
+    fun sendMail(email: Email, defaultRecipientsAddresses: Set<Address>, logger: PrintStream) {
         val messageBuilder = MessageBuilder(email, defaultRecipientsAddresses)
         if (messageBuilder.isMsgHasRecipients()) {
             try {
                 Transport.send(messageBuilder.buildMessage(session))
+                logger.println("Emails sent to: ${messageBuilder.recipientsInfo()}")
             } catch (e: MessagingException) {
-                handleException(e)
+                handleException(logger, e)
             } catch (e: IOException) {
-                handleException(e)
+                handleException(logger, e)
             }
-        } else logger.log(Level.INFO, "No recipients to send email.")
+        } else {
+            logger.println("No recipients to send email.")
+        }
     }
 
-    private fun handleException(e: Exception) {
-        logger.log(Level.ERROR, e.stackTrace)
+    private fun handleException(jenkinsLogger: PrintStream, e: Exception) {
+        jenkinsLogger.println("Error while sending email.")
+        LogManager.getLogger().log(Level.ERROR, e.stackTrace)
         throw AbortException("${e.cause}: ${e.message}")
     }
 

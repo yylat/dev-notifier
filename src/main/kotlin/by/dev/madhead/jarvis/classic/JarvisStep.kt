@@ -27,7 +27,8 @@ constructor(val defaultRecipients: String?) : Notifier() {
         try {
             Jarvis().sendMail(
                     email = EmailCreator(build, listener).create(),
-                    defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients))
+                    defaultRecipientsAddresses = createDefaultAddressesSet(build, defaultRecipients),
+                    logger = listener.logger)
             return true
         } catch (exception: Throwable) {
             throw AbortException(exception.message)
