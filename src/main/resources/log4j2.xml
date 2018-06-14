@@ -5,8 +5,8 @@
     </Properties>
     <Appenders>
         <RollingFile name="File"
-                     fileName="logs/jarvis/log.txt"
-                     filePattern="logs/jarvis/$${date:yyyy-MM-dd}/log-%i.txt">
+                     fileName="logs/devnotifier/log.txt"
+                     filePattern="logs/devnotifier/$${date:yyyy-MM-dd}/log-%i.txt">
             <PatternLayout pattern="${filePattern}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="1000 KB"/>

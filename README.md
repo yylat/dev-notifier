@@ -1,10 +1,10 @@
-# jarvis
-Jarvis is a plugin for email notifications about Jenkins builds.
+# dev-notifier
+DevNotifier is a plugin for email notifications about Jenkins builds.
 
 An attempt to mimic Travis CI emails style.
 
 # how it looks
-![Jarvis email](/.github/images/jarvis.jpg)
+![DevNotifier email](/.github/images/devnotifier.jpg)
 
 # usage
 Configuration in build like freestyle project:
@@ -25,7 +25,7 @@ pipeline {
                 doGenerateSubmoduleConfigurations: false, 
                 extensions: [[$class: 'AuthorInChangelog']], 
                 submoduleCfg: [], 
-                userRemoteConfigs: [[url: 'https://github.com/vhs21/jarvis']]
+                userRemoteConfigs: [[url: 'https://github.com/vhs21/dev-notifier']]
                 ])
             }
         }
@@ -33,7 +33,7 @@ pipeline {
     post {
         always{
             script{
-                jarvisNotification()
+                notifyDev()
             }
         }
     }

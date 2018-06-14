@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?jelly escape-by-default='true'?>
+
+<jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
+    <form:entry field="defaultRecipients" title="${%devnotifier.classic.DevNotifierStep.defaultRecipients}" description="${%devnotifier.classic.DevNotifierStep.defaultRecipientsDescription}">
+        <form:textbox/>
+    </form:entry>
+</jelly:jelly>

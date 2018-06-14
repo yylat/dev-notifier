@@ -68,9 +68,9 @@ kapt {
 }
 
 jenkinsPlugin {
-    displayName = "Jarvis"
-    shortName = "jarvis"
-    gitHubUrl = "https://github.com/vhs21/jarvis"
+    displayName = "Dev Notifier"
+    shortName = "dev-notifier"
+    gitHubUrl = "https://github.com/vhs21/dev-notifier"
 
     coreVersion = jenkinsCoreVersion as String?
     compatibleSinceVersion = coreVersion

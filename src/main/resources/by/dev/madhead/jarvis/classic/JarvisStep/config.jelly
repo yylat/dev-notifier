@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?jelly escape-by-default='true'?>
-
-<jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
-    <form:entry field="defaultRecipients" title="${%jarvis.classic.JarvisStep.defaultRecipients}" description="${%jarvis.classic.JarvisStep.defaultRecipientsDescription}">
-        <form:textbox/>
-    </form:entry>
-</jelly:jelly>

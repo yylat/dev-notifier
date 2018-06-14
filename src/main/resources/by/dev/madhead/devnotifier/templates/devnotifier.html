@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<!--/*@thymesVar id="email" type="by.dev.madhead.devnotifier.model.Email"*/-->
+	<!--/*@thymesVar id="randomSuccessExhortation" type="java.lang.String"*/-->
+	<!--/*@thymesVar id="randomFailureExhortation" type="java.lang.String"*/-->
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title th:text="|${#messages.msg('status.' + email.build.status.name())}: ${email.repo.slug} ${'#'} ${email.build.number} (${#strings.isEmpty(email.build.branch) ? email.build.revision : email.build.branch + ' - ' + email.build.revision})|">
+		</title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: arial, sans-serif;
+			}
+			table.content {
+				width: 570px;
+				border-collapse: collapse;
+			}
+		</style>
+	</head>
+	<body>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td>
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="color: #606060; font-size: 20px">
+							<td>
+								<strong>
+									<a
+											th:href="@{${email.repo.link}}"
+											th:text="${email.repo.slug}"
+											href="https://github.com/jenkinsci/doktor-plugin"
+											style="color: #606060"></a>
+								</strong>
+
+								<span th:unless="${#strings.isEmpty(email.build.branch)}"
+								      th:text="#{branch(${email.build.branch})}"></span>
+							</td>
+						</tr>
+						<tr style="height: 15px"></tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0"
+					       style="border: 1px solid #adadad">
+						<tr th:style="|height:10px; background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+						    style="height:10px; background-color: #baecb7; color: #32a32d">
+							<td colspan="8"></td>
+						</tr>
+						<tr
+								th:style="|background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+								style="background-color: #baecb7; color: #32a32d">
+							<td style="width: 10px"></td>
+							<td style="width: 25px; height: 25px">
+								<img
+										th:src="'cid:status.png'"
+										src="../images/status-success.png"
+										alt="Build status"/>
+							</td>
+							<td style="width: 10px"></td>
+							<td style="font-size: 18px">
+								<strong>
+									<a th:style="|color: ${#messages.msg('status.' + email.build.status + '.color')}|"
+									   th:text="${#messages.msg('status.' + email.build.status + '.description', email.build.number)}"
+									   th:href="${email.build.link}"
+									   href="https://travis-ci.org/jenkinsci/doktor-plugin/builds/291265649"
+									   style="color: #32a32d"></a>
+								</strong>
+							</td>
+							<td style="width: 25px; height: 25px">
+								<img th:src="'cid:duration.png'"
+								     src="../images/duration-success.png"
+								     alt="Build duration"/>
+							</td>
+							<td style="width: 10px"></td>
+							<td th:text="${email.build.durationForHumans}"
+							    style="font-size: 12px; width: 170px">
+							</td>
+							<td style="width: 10px"></td>
+						</tr>
+						<tr th:style="|height:10px; background-color: ${#messages.msg('status.' + email.build.status + '.background')}; color: ${#messages.msg('status.' + email.build.status + '.color')}; border-bottom: 1px solid #adadad|"
+						    style="height:10px; background-color: #baecb7; color: #32a32d; border-bottom: 1px solid #adadad">
+							<td colspan="8"></td>
+						</tr>
+						<tr th:if="${not #lists.isEmpty(email.build.changeSet)}">
+							<td colspan="8">
+								<table width="100%">
+									<th:block th:each="change:${email.build.changeSet}">
+											<tr>
+												<td style="width: 10px" rowspan="2"></td>
+												<td>
+													<strong th:text="${change.author.username}" style="font-size: 16px">
+													</strong>
+												</td>
+												<td style="text-align: right">
+													<a th:unless="${#strings.isEmpty(change.link)}"
+                                                       th:href="${change.link}"
+													   href="https://github.com/jenkinsci/doktor-plugin/commit/20339bc396d32bd619f4601eb44085efb3e2f531"
+													   style="text-decoration: none; color: #57769d; font-size: 16px">
+														<pre th:text="${change.revision}" style="margin: 0">20339bc</pre>
+													</a>
+												</td>
+												<td style="width: 10px" rowspan="2"></td>
+											</tr>
+											<tr>
+												<td colspan="2">
+											<pre th:text="${change.message}"
+											     style="color: #606060; font-size: 15px; margin: 5px">
+                                            </pre>
+												</td>
+											</tr>
+									</th:block>
+								</table>
+							</td>
+						</tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0">
+						<tr style="height: 15px"></tr>
+					</table>
+
+					<table class="content" align="center" cellpadding="0" cellspacing="0"
+					       style="border: 1px solid #adadad">
+						<tr style="height:10px">
+							<td colspan="5"></td>
+						</tr>
+						<tr>
+							<td style="width: 10px"></td>
+							<td style="width: 37px">
+								<img style="max-width: 37px;"
+										th:src="'cid:jenkins.png'"
+										src="../images/jenkins.png"
+                                        alt="Build status"/>
+							</td>
+							<td style="width: 10px"></td>
+							<td style="font-size: 12px">
+								<p th:unless="${#strings.isEmpty(email.extra.supportEmail)}"
+								   th:utext="#{support(${email.extra.supportEmail})}"
+								   style="margin: 2px 0">
+									Need help? Mail <a
+										th:href="${email.extra.supportEmail}" href="mailto:support@travis-ci.com" style="color: #606060">support</a>!
+								</p>
+								<p style="margin: 2px 0">
+									You look good today.
+								</p>
+							</td>
+							<td style="width: 10px"></td>
+						</tr>
+						<tr style="height:10px">
+							<td colspan="5"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
