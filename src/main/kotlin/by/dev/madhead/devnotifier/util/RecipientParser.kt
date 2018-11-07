@@ -11,15 +11,14 @@ private val addressPattern = Regex("([a-zA-Z0-9]+[-_.]?)+@[a-z0-9]+\\.[a-z]+$")
 private val recipientSplitPattern = Regex("[;, ]")
 
 fun createDefaultAddressesSet(run: Run<*, *>, recipients: String?): Set<Address> {
-    val defaultAddresses = mutableSetOf<Address>()
 
-    findJenkinsBuilderAddress(run)?.let { addStringAsAddress(defaultAddresses, it) }
+    val arrayOfAddresses = recipients?.split(recipientSplitPattern)
+            ?.mapNotNull { stringToAddress(it) }
+            ?.toTypedArray() ?: emptyArray()
 
-    recipients?.let {
-        recipients.split(recipientSplitPattern).forEach { addStringAsAddress(defaultAddresses, it) }
-    }
-
-    return defaultAddresses
+    return findJenkinsBuilderAddress(run)
+            ?.let { stringToAddress(it) }
+            ?.let { setOf(it, *arrayOfAddresses) } ?: setOf(*arrayOfAddresses)
 }
 
 fun isValidAddress(address: String) = address.matches(addressPattern)
@@ -31,6 +30,14 @@ fun isValidAddresses(recipients: String?): Boolean {
         }
     }
     return true
+}
+
+fun stringToAddress(address: String): InternetAddress? {
+    if (isValidAddress(address)) {
+        return InternetAddress(address)
+    } else {
+        return null
+    }
 }
 
 fun addStringAsAddress(addresses: MutableSet<Address>, address: String) {

@@ -18,17 +18,10 @@ import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 import javax.mail.util.ByteArrayDataSource
 
-class MessageBuilder(
-        private val email: Email,
-        defaultRecipientsAddresses: Set<Address>) {
+class MessageBuilder(private val email: Email, defaultRecipientsAddresses: Set<Address>) {
 
-    private val allRecipientAddresses = mutableSetOf<Address>()
-
-    init {
-        allRecipientAddresses.addAll(defaultRecipientsAddresses)
-        email.build.changeSet.mapNotNull { it.author.email }
-                .forEach { addStringAsAddress(allRecipientAddresses, it) }
-    }
+    private val allRecipientAddresses = defaultRecipientsAddresses
+            .union(email.build.changeSet.mapNotNull { it.author.email }.map { stringToAddress(it) })
 
     fun isMsgHasRecipients() = allRecipientAddresses.isNotEmpty()
 

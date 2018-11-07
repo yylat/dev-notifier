@@ -1,11 +1,11 @@
 package by.dev.madhead.devnotifier.util
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import javax.mail.Address
 
 @RunWith(Parameterized::class)
 class RecipientParserTest {
@@ -24,11 +24,11 @@ class RecipientParserTest {
 
     @ParameterizedTest
     @MethodSource("builderAddressSource")
-    fun addStringAsAddress(builderAddress: String, isValidBuilderAddress: Boolean) {
-        val addressesSet = mutableSetOf<Address>()
-        by.dev.madhead.devnotifier.util.addStringAsAddress(addressesSet, builderAddress)
-        if (isValidBuilderAddress) Assertions.assertEquals(1, addressesSet.size)
-        else Assertions.assertEquals(0, addressesSet.size)
+    fun stringToAddress(builderAddress: String, isValidBuilderAddress: Boolean) {
+        val internetAddress = by.dev.madhead.devnotifier.util.stringToAddress(builderAddress)
+
+        Assumptions.assumingThat(isValidBuilderAddress, { Assertions.assertEquals(internetAddress.toString(), builderAddress) })
+        Assumptions.assumingThat(!isValidBuilderAddress, { Assertions.assertNull(internetAddress) })
     }
 
     companion object {
